@@ -25,28 +25,18 @@ import java.util.regex.Pattern;
  */
 public class Main {
     public static String sendGet(String url) {
-        //定义存储结果的字符串
-        StringBuilder result =new StringBuilder();
 
-        String filePath =null;
-
-        //定义缓冲字符输入流
-        BufferedReader input =null;
+        StringBuilder result =new StringBuilder();//定义存储结果的字符串
+        BufferedReader input =null;//定义缓冲字符输入流
 
         try {
-            //将string转成URL对象
-            URL realURL=new URL(url);
-            //初始化链接
-            URLConnection connection=realURL.openConnection();
-            //开始链接
-            connection.connect();
-            //初始化输入缓冲流
-            input=new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            //临时存储抓到的每一行数据
-            String aLine;
+            URL realURL=new URL(url);//将string转成URL对象
+            URLConnection connection=realURL.openConnection();//初始化链接
+            connection.connect();//开始链接
+            input=new BufferedReader(new InputStreamReader(connection.getInputStream()));//初始化输入缓冲流
+            String aLine;//临时存储抓到的每一行数据
             while ((aLine=input.readLine())!=null) {
-                //遍历抓取到的每一行数据并将其存储到result里
-                result.append(aLine);
+                result.append(aLine);//遍历抓取到的每一行数据并将其存储到result里
             }
         }
         catch (Exception e) {
@@ -54,77 +44,63 @@ public class Main {
             e.printStackTrace();
         }finally {
             try{
-                if (input!=null){
-                    input.close();
-                }
+                if (input!=null){   input.close();}
             }catch (Exception e2){e2.printStackTrace();}
         }
         return result.toString();
-
     }
 
-    public static String[] RegexString(String targetStr,String patternStr){
+    public static String RegexString(String targetStr,String patternStr){
         //定义一个样式模板，在此使用regex。在targetStr中寻找与patternStr匹配的文字内容
 
-        //定义要挑出的字段
-        Pattern  pattern = Pattern.compile(patternStr);
+        Pattern  pattern = Pattern.compile(patternStr);//定义要挑出的字段
+        Matcher matcher= pattern.matcher(targetStr);//把要大段目标文字进行匹配
 
-        //把要大段目标文字进行匹配
-        Matcher matcher= pattern.matcher(targetStr);
-
-        String[] matcheredString= new String[11];
+        String matcheredString= null;
 
         if (matcher.find()){
-            for (int i=0;i<matcher.groupCount();i++){
-                matcheredString[i]=matcher.group(i);
+            for (int i=1;i<matcher.groupCount();i++){
+                matcheredString+=matcher.group(i)+"\n";
             }
         }
-
         return matcheredString;
     }
 
     public static int IsMatcher(String targetStr,String patternStr){
 
-        Pattern  pattern = Pattern.compile(patternStr);
+        Pattern  pattern = Pattern.compile(patternStr);//定义要挑出的字段
+        Matcher matcher= pattern.matcher(targetStr);//把要大段目标文字进行匹配
 
-        //把要大段目标文字进行匹配
-        Matcher matcher= pattern.matcher(targetStr);
-
-        String[] matcheredString= new String[11];
-
-        //如果找到匹配的部分
-        if (matcher.find()){
+        if (matcher.find()){//如果找到匹配的部分
             return 1;
         }
         else return 0;
     }
 
     public static void main(String[] args){
-        //定义即将访问的链接
-        String url ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci=本科&zytype=&page=1&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";
 
-        //访问链接并获取页面内容
-        String result=sendGet(url);
+        String urlAllMajorBK ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci=本科&zytype=&page=1&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";//全部本科专业目录
+        String urlAllMajorZK ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci=专科&zytype=&page=1&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";//全部专科专业目录
 
-        /*
-        <tr><td><a href="/schoolhtm/schoolTemple/school31.htm" title="北京大学">.</a></td><td title="中国语言文学类">中国语言文学类</td><td width="10%&quot;">教育部直属</td><td width="9%&quot;">985大学</td><td width="9%&quot;">211大学</td><td><a onclick="addCompare('31','北京大学')" class="query_db"></a></td></tr>
-         */
-
-        //String regexString="<tr><td><a href=\\\"(.+?)\\\" title=\\\"(.+?)\\\">.</a></td><td title=\\\"(.+?)\\\">(.+?)</td><td (.+?)>(.+?)</td><td (.+?)>(.+?)</td><td (.+?)>(.+?)</td><td><a onclick=\"addCompare(.+?)\\\" class=\\\"query_db\\\"></a></td></tr>";
-
-//        String imgSrc=RegexString(result,"src=\\\"(.+?)\\\"");
-
-        String[] imgSrc=RegexString(result,"<tr><td><a href=\\\"/schoolhtm/schoolTemple/school31.htm\\\" title=\\\"北京大学\\\">.</a></td><td title=\\\"中国语言文学类\\\">中国语言文学类</td><td width=\\\"10%&quot;\\\">教育部直属</td><td width=\\\"9%&quot;\\\">985大学</td><td width=\"9%&quot;\\\">211大学</td><td><a onclick=\\\"addCompare('31','北京大学')\\\" class=\\\"query_db\\\"></a></td></tr>");
+        String resultAllMajorBK=sendGet(urlAllMajorBK);//访问本科全部专业链接
+        String resultAllMajorZK=sendGet(urlAllMajorZK);//访问专科全部专业链接
 
 
-        System.out.println(result);
 
-        for (int i=0;i<imgSrc.length;i++)
-        {
-            System.out.println(imgSrc[i]);
-        }
+//{   "specialname": "贸易经济",   "code": "020106",   "specialurl": "/schoolhtm/specialty/10032/specialtyDetail50728.htm",   "clicks": "8251",   "monthclicks": "8251",   "weekclicks": "8251",   "zycengci": "本科",   "zytype": "经济学类",   "bnum": "39",   "znum": "4",   "zyid": "50728",   "ranking": "245",   "rankingType": "14"  }
 
-        int  isMatcher=IsMatcher(result,"<tr><td><a href=\\\"/schoolhtm/schoolTemple/school31.htm\\\" title=\\\"北京大学\\\">.</a></td><td title=\\\"中国语言文学类\\\">中国语言文学类</td><td width=\\\"10%&quot;\\\">教育部直属</td><td width=\\\"9%&quot;\\\">985大学</td><td width=\"9%&quot;\\\">211大学</td><td><a onclick=\\\"addCompare('31','北京大学')\\\" class=\\\"query_db\\\"></a></td></tr>");
+// (\{   "specialname": ".*",   "code": ".*",   "specialurl": ".*",   "clicks": ".*",   "monthclicks": ".*",   "weekclicks": ".*",   "zycengci": ".*",   "zytype": ".*",   "bnum": ".*",   "znum": ".*",   "zyid": ".*",   "ranking": ".*",   "rankingType": ".*"  \});
+
+        String imgSrc=RegexString(resultAllMajorBK,"\\\"specialname\\\": \\\"(.*)\\\",   \\\"code\\\": \\\"(.*)\\\",   \\\"specialurl\\\": \\\"(.*)\\\",   \\\"clicks\\\": \\\"(.*)\\\",   \\\"monthclicks\\\": \\\"(.*)\\\",   \\\"weekclicks\\\": \\\"(.*)\\\",   \\\"zycengci\\\": \\\"(.*)\\\",   \\\"zytype\\\": \\\"(.*)\\\",   \\\"bnum\\\": \\\"(.*)\\\",   \\\"znum\\\": \\\"(.*)\\\",   \\\"zyid\\\": \\\"(.*)\\\",   \\\"ranking\\\": \\\"(.*)\\\",   \\\"rankingType\\\": \\\"(.*)\\\"");
+
+        System.out.println(resultAllMajorBK);
+
+        System.out.println("-----------------------------------");
+
+        System.out.println(imgSrc);
+
+
+        int  isMatcher=IsMatcher(resultAllMajorBK,"\"specialname\": \"(.*)\",   \"code\": \"(.*)\",   \"specialurl\": \"(.*)\",   \"clicks\": \"(.*)\",   \"monthclicks\": \"(.*)\",   \"weekclicks\": \"(.*)\",   \"zycengci\": \"(.*)\",   \"zytype\": \"(.*)\",   \"bnum\": \"(.*)\",   \"znum\": \"(.*)\",   \"zyid\": \"(.*)\",   \"ranking\": \"(.*)\",   \"rankingType\": \"(.*)\"");
 
         System.out.println(isMatcher);
 
