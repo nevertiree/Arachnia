@@ -7,6 +7,7 @@ public class MajorVO {
     private String code;
     private String specialname;
     private int rankingType;
+    private String zycengci;
 
     //Constructor
     public MajorVO() {
