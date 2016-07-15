@@ -7,8 +7,4 @@ import com.nostudy.business.major.MajorOperator;
  */
 public class Main {
 
-    public static void main(String[] agrs){
-        MajorOperator undergraduateMajor = new MajorOperator();
-        undergraduateMajor.operateBK();
-    }
 }

@@ -9,7 +9,15 @@ import org.junit.Test;
  * Created by Lance on 7/14/16.
  */
 public class MajorDAOTest {
+
     MajorDAO dao;
+
+    @Before
+    public void setup(){
+        dao = new MajorDAO();
+    }
+
+
     @Test
     public void testInsertMajor(){
         MajorVO vo = new MajorVO("991-aaa", "none", 3);
@@ -19,11 +27,6 @@ public class MajorDAOTest {
         vo = new MajorVO("991-aaa", "none", 3);
         success = dao.insertMajor(vo);
         Assert.assertEquals(success, true);
-    }
-
-    @Before
-    public void setup(){
-        dao = new MajorDAO();
     }
 
     @After

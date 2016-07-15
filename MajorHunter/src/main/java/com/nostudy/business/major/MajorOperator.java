@@ -1,12 +1,10 @@
 package com.nostudy.business.major;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nostudy.business.common.AnalysisContent;
 import com.nostudy.business.common.GrabContent;
-import com.nostudy.business.common.JsonFunction;
-import com.nostudy.spider.Major;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,32 +13,27 @@ import java.util.List;
 public class MajorOperator {
     public static void main(String[] args) {
         MajorOperator spider = new MajorOperator();
-        spider.operateBK();
+        spider.operator("本科");
     }
-    public void operateBK(){
+    public void operator(String majorType){
 
         //get the origin content from data.api
         GrabContent grabContent =new GrabContent();
 
         //the base URL
         int pageNumber = 1;
-        String urlAllMajorBK ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci=本科&zytype=&page="+pageNumber+"&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";//全部本科专业目录
-        String resultAllMajorBK=grabContent.grabWithJavaNet(urlAllMajorBK);//本科全部专业原始数据
+        String urlAllMajorBK;
 
         try {//judge whether this page has valued infomation
-            AnalysisContent analysisContent= new AnalysisContent();
-            while(analysisContent.valuedContent(resultAllMajorBK,"school")) {
-                List<MajorVO> majorVOs = null;
-                majorVOs=parseMajorRespVO(parseJSON(resultAllMajorBK));
+            for(pageNumber=1;pageNumber<55;pageNumber++){
+                urlAllMajorBK ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci="+majorType+"&zytype=&page="+pageNumber+"&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";//全部本科专业目录
+                String resultAllMajorBK=grabContent.grabWithJavaNet(urlAllMajorBK);//本科全部专业原始数据
+                List<MajorVO> majorVOs =parseMajorRespVO(parseJSON(resultAllMajorBK));
                 parseMajorVO(majorVOs);
-                pageNumber++;
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        }catch (Exception e){e.printStackTrace();}
 
     }
-
 
     //input the row result and return the resp VO
     public MajorRespVO parseJSON(String rowResult){
@@ -63,14 +56,15 @@ public class MajorOperator {
     //parse the MajorRespVO
     public List<MajorVO> parseMajorRespVO(MajorRespVO majorRespVO){
 
-        List<MajorVO> resultMajorVO = null;
-
+        List<MajorVO> resultMajorVO = new ArrayList<MajorVO>();
         for (MajorRowVO majorRowVO:majorRespVO.getSchool()){
-            MajorVO majorVO = new MajorVO();
-            majorVO.setCode(majorRowVO.getCode());
-            majorVO.setSpecialname(majorRowVO.getSpecialname());
-            majorVO.setRankingType(majorRowVO.getRankingType());
-            resultMajorVO.add(majorVO);
+
+            try {MajorVO majorVO = new MajorVO();
+                majorVO.setCode(majorRowVO.getCode());
+                majorVO.setSpecialname(majorRowVO.getSpecialname());
+                majorVO.setRankingType(majorRowVO.getRankingType());
+                resultMajorVO.add(majorVO);
+            }catch (NullPointerException e){e.printStackTrace();}
         }
 
         return resultMajorVO;
