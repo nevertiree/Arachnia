@@ -14,3 +14,27 @@ jQuery1830032572212268669354_1468135281347({ "totalRecord": {"num": "547"}, "sch
 
 各个大学的详细信息
 http://gkcx.eol.cn/schoolhtm/schoolTemple/school31.htm
+
+    "schoolid": "2225",
+   "schoolname": "硅湖职业技术学院",
+   "clicks": "29829",
+   "monthclicks": "349",
+   "weekclicks": "43",
+   "province": "江苏",
+   "schooltype": "高职高专",
+   "schoolproperty": "理工类",
+   "edudirectly": "0",
+   "f985": "0",
+   "f211": "0",
+   "level": "专科",
+   "autonomyrs": "0",
+   "library": "0",
+   "membership": "江苏省教育厅",
+   "schoolnature": "民办",
+   "shoufei": "学费标准：1、学费：文理类：13000元/生·年;艺术类：15000元/生·年;中外合作办学专业：16500元/生·年2、住宿费：1200元/生·年",
+   "jianjie": "
+   "ranking": "2526",
+   "rankingCollegetype": "824",
+   "guanwang": "http://www.usl.edu.cn/",
+   "oldname": "硅湖职业技术学院",
+   "ads": "0"

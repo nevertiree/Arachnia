@@ -17,18 +17,17 @@ use Spider;
 
 #学校信息 记录通过ImportSchoolInfoIntoDB导入
 create table if not exists university (
-  id_university         int            primary key  AUTO_INCREMENT,#教育部ID 应该对应官网的schoolcode
+  id_university         VARCHAR(16)    primary key  ,
   name_university       varchar(64)    not null     unique,
   province_university   varchar(32)    not null,
-  city_university       varchar(16)    not null,
   type_university       varchar(8)     not null,  #普通本科 高职高专 独立学院 中外合作……
   property_university   VARCHAR(16)    NOT NULL, #理工类 综合类 医科类……
   is_eduMinistry_direct INT            NOT NULL,
+  attribute_university  VARCHAR(32)    NOT NULL ,
   is_985                INT            NOT NULL,
   is_211                INT            NOT NULL,
   level_university      VARCHAR(8)     NOT NULL,#本科or专科
-
-
+  nature_university     VARCHAR(8)     NOT NULL
 )CHARACTER SET=utf8;
 
 create table if not exists universityIndex (
