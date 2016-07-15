@@ -15,13 +15,20 @@ create database if not exists Spider CHARACTER SET utf8;
 
 use Spider;
 
-#学校信息，记录通过ImportSchoolInfoIntoDB导入
+#学校信息 记录通过ImportSchoolInfoIntoDB导入
 create table if not exists university (
-   no        int            primary key  AUTO_INCREMENT,
-   name      varchar(64)    not null     unique,
-   province  varchar(32)    not null,
-   city      varchar(16)    not null,
-   schlType  varchar(8)     not null  #综合类、理工、文科……
+  id_university         int            primary key  AUTO_INCREMENT,#教育部ID 应该对应官网的schoolcode
+  name_university       varchar(64)    not null     unique,
+  province_university   varchar(32)    not null,
+  city_university       varchar(16)    not null,
+  type_university       varchar(8)     not null,  #普通本科 高职高专 独立学院 中外合作……
+  property_university   VARCHAR(16)    NOT NULL, #理工类 综合类 医科类……
+  is_eduMinistry_direct INT            NOT NULL,
+  is_985                INT            NOT NULL,
+  is_211                INT            NOT NULL,
+  level_university      VARCHAR(8)     NOT NULL,#本科or专科
+
+
 )CHARACTER SET=utf8;
 
 create table if not exists universityIndex (
@@ -37,9 +44,9 @@ create table if not exists universityIndex (
 CREATE TABLE IF NOT EXISTS universityDetail(
   no       int          PRIMARY KEY ,
   name     VARCHAR(64)  NOT NULL  UNIQUE ,
-  tel      VARCHAR(64)  NOT NULL ,#招生办公室电话
-  address  VARCHAR(128) NOT NULL,#学校地址
-  email    VARCHAR(64)  NOT NULL ,#email
+  tel      VARCHAR(64)  NOT NULL, #招生办公室电话
+  address  VARCHAR(128) NOT NULL,  #学校地址
+  email    VARCHAR(64)  NOT NULL, #email
   website  VARCHAR(64)  NOT NULL, #官方网站
   FOREIGN KEY (no) REFERENCES university(no) ON DELETE CASCADE ON UPDATE CASCADE ,
   FOREIGN KEY (name) REFERENCES university(name) ON DELETE CASCADE ON UPDATE CASCADE
@@ -47,10 +54,12 @@ CREATE TABLE IF NOT EXISTS universityDetail(
 
 #专业信息，记录通过ImportSchoolInfoIntoDB导入
 create table if not exists major (
-	no       varchar(8)      primary key,
-	name     varchar(64)     not null,
-	rank     int,
-	unique unique_name_rank (name, rank)
+	codeMajor     VARCHAR(8)     PRIMARY KEY ,#以code为准
+	nameMajor     VARCHAR(64)    NOT NULL ,
+	levelMajor   VARCHAR(8)     NOT NULL ,
+  typeMajor     VARCHAR(16)    NOT NULL ,
+  rankMajor     INT            NOT NULL
+	#unique unique_nameMajor_rankMajor (name, rank)
 )CHARACTER SET=utf8;
 
 create table if not exists majorIndex (
@@ -64,7 +73,7 @@ create table if not exists majorIndex (
 
 #学期｜校历信息,
 ########univNO 可能需要修改，改为学校名字
-CREATE TABLE if not exists Terms(
+CREATE TABLE if not exists terms(
 	no     	int        PRIMARY KEY        AUTO_INCREMENT,
 	univNO 	int,
 	year 	int, month int, day int, 
@@ -74,7 +83,7 @@ CREATE TABLE if not exists Terms(
 )CHARACTER SET=utf8;
 
 #学生所在学校、专业以及入学年份信息
-CREATE TABLE UnivMajInfo (
+CREATE TABLE universityMajorInfo (
   no INTEGER PRIMARY KEY AUTO_INCREMENT,
   uuid varchar(48)   UNIQUE,
   univNo   int,
@@ -85,7 +94,7 @@ CREATE TABLE UnivMajInfo (
 )CHARACTER SET=utf8;
 
 #个人设置的信息，用于聊天、博客
-CREATE TABLE UserInfo (
+CREATE TABLE userInfo (
    no int PRIMARY  KEY   AUTO_INCREMENT, 
    uuid varchar(40)   UNIQUE,
    name varchar(32),

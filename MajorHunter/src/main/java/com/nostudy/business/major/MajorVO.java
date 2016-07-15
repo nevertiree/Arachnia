@@ -6,18 +6,19 @@ package com.nostudy.business.major;
 public class MajorVO {
     private String code;
     private String specialname;
-    private int rankingType;
     private String zycengci;
+    private String zytype;
+    private int rankingType;
 
     //Constructor
-    public MajorVO() {
-    }
+    public MajorVO() {}
 
-    public MajorVO(String no, String name, int rank) {
-        this.code = no;
-        this.specialname = name;
-        this.rankingType = rank;
-    }
+    public MajorVO(String code, String specialname,String zycengci,String zytype, int rankingType) {
+        this.code = code;
+        this.specialname = specialname;
+        this.zycengci=zycengci;
+        this.zytype=zytype;
+        this.rankingType = rankingType;}
 
     public String getCode() {
         return code;
@@ -33,6 +34,22 @@ public class MajorVO {
 
     public void setSpecialname(String specialname) {
         this.specialname = specialname;
+    }
+
+    public String getZycengci() {
+        return zycengci;
+    }
+
+    public void setZycengci(String zycengci) {
+        this.zycengci = zycengci;
+    }
+
+    public String getZytype() {
+        return zytype;
+    }
+
+    public void setZytype(String zytype) {
+        this.zytype = zytype;
     }
 
     public int getRankingType() {

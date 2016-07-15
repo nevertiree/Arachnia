@@ -19,10 +19,12 @@ public class UniversityDAO extends BaseDAO {
 
             //edit the SQL query
             String insertQuery="replace into university () values()";
-            PreparedStatement preparedStatement
+            PreparedStatement preparedStatement =connection.prepareStatement(insertQuery);
+
 
 
         }catch (SQLException e){e.printStackTrace();}
 
+        return false;
     }
 }

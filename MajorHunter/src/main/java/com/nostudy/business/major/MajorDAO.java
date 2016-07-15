@@ -17,13 +17,15 @@ public class MajorDAO extends BaseDAO {
             connection=this.connectMysql();
 
             //edit the SQL query
-            String insertQuery= "replace into major (no,name,rank) values(?,?,?)";
+            String insertQuery= "replace into major (codeMajor,nameMajor,levelMajor,typeMajor,rankMajor) values(?,?,?,?,?)";
             PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
 
             //set the ? as the specific value with getMethod of VO
             preparedStatement.setString(1,majorVO.getCode());
             preparedStatement.setString(2,majorVO.getSpecialname());
-            preparedStatement.setInt(3,majorVO.getRankingType());
+            preparedStatement.setString(3,majorVO.getZycengci());
+            preparedStatement.setString(4,majorVO.getZytype());
+            preparedStatement.setInt(5,majorVO.getRankingType());
 
             //execute the SQL query
             int affectedCount = preparedStatement.executeUpdate();

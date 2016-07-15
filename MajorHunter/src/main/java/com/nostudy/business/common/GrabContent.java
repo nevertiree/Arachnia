@@ -42,4 +42,16 @@ public class GrabContent {
         return grabResult.toString();
     }
 
+    public static void main(String[] args){
+        //String testURL ="http://gkcx.eol.cn/schoolhtm/schoolTemple/school3000.htm";学校详细信息
+
+        //String testURL="http://gkcx.eol.cn/schoolhtm/specialty/specialtyList/specialty31.htm";，某大学全部专业
+
+    /*    GrabContent grabContent =new GrabContent();
+
+        String testResult = grabContent.grabWithJavaNet(testURL);
+
+        System.out.println(testResult);*/
+    }
+
 }

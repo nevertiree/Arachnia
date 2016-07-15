@@ -14,8 +14,10 @@ public class MajorOperator {
     public static void main(String[] args) {
         MajorOperator spider = new MajorOperator();
         spider.operator("本科");
+        spider.operator("专科");
+
     }
-    public void operator(String majorType){
+    public void operator(String typeMajor){
 
         //get the origin content from data.api
         GrabContent grabContent =new GrabContent();
@@ -24,12 +26,17 @@ public class MajorOperator {
         int pageNumber = 1;
         String urlAllMajorBK;
 
+        AnalysisContent analysisContent =new AnalysisContent();
+
         try {//judge whether this page has valued infomation
-            for(pageNumber=1;pageNumber<55;pageNumber++){
-                urlAllMajorBK ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci="+majorType+"&zytype=&page="+pageNumber+"&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";//全部本科专业目录
+            while(true){
+                urlAllMajorBK ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci="+typeMajor+"&zytype=&page="+pageNumber+"&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";//全部本科专业目录
                 String resultAllMajorBK=grabContent.grabWithJavaNet(urlAllMajorBK);//本科全部专业原始数据
-                List<MajorVO> majorVOs =parseMajorRespVO(parseJSON(resultAllMajorBK));
-                parseMajorVO(majorVOs);
+                if (analysisContent.valuedContent(resultAllMajorBK,"specialname")){
+                    List<MajorVO> majorVOs =parseMajorRespVO(parseJSON(resultAllMajorBK));
+                    parseMajorVO(majorVOs);
+                    pageNumber++;
+                }else break;
             }
         }catch (Exception e){e.printStackTrace();}
 
@@ -62,6 +69,8 @@ public class MajorOperator {
             try {MajorVO majorVO = new MajorVO();
                 majorVO.setCode(majorRowVO.getCode());
                 majorVO.setSpecialname(majorRowVO.getSpecialname());
+                majorVO.setZycengci(majorRowVO.getZycengci());
+                majorVO.setZytype(majorRowVO.getZytype());
                 majorVO.setRankingType(majorRowVO.getRankingType());
                 resultMajorVO.add(majorVO);
             }catch (NullPointerException e){e.printStackTrace();}

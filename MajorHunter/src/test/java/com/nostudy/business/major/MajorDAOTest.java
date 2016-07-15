@@ -20,11 +20,11 @@ public class MajorDAOTest {
 
     @Test
     public void testInsertMajor(){
-        MajorVO vo = new MajorVO("991-aaa", "none", 3);
+        MajorVO vo = new MajorVO("991-aaa", "none","本科","哲学",3);
         boolean success = dao.insertMajor(vo);
         Assert.assertEquals(success, true);
 
-        vo = new MajorVO("991-aaa", "none", 3);
+        vo = new MajorVO("991-aaa", "none","本科","哲学", 3);
         success = dao.insertMajor(vo);
         Assert.assertEquals(success, true);
     }
