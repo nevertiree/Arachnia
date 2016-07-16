@@ -1,18 +1,11 @@
 package com.nostudy.business.university;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import com.nostudy.business.common.AnalysisContent;
 import com.nostudy.business.common.GrabContent;
 
-import javax.swing.text.AbstractDocument;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static jdk.nashorn.internal.objects.NativeString.trim;
 
 /**
  * Created by Lance on 7/15/16.
@@ -21,10 +14,10 @@ public class UniversityOperator {
 
     public static void main(String[] args){
         UniversityOperator spider =new UniversityOperator();
-        spider.operator();
+        spider.downloadOperator();
     }
 
-    public void operator(){
+    public void downloadOperator(){
 
         //get the origin content from data.api
         GrabContent grabContent =new GrabContent();

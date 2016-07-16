@@ -7,6 +7,13 @@ import java.util.List;
  */
 public class UniversityRespVO {
 
+    final public class Num {
+        int num;
+        public int getNum() {
+            return num;
+        }
+    }
+
     private Num totalRecord;
     private List<UniversityRowVO> school;
 
@@ -22,13 +29,6 @@ public class UniversityRespVO {
     }
     public void setSchool(List<UniversityRowVO> school) {
         this.school = school;
-    }
-
-    final public class Num {
-        int num;
-        public int getNum() {
-            return num;
-        }
     }
 
 }

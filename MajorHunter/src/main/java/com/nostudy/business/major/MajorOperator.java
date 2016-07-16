@@ -13,11 +13,11 @@ import java.util.List;
 public class MajorOperator {
     public static void main(String[] args) {
         MajorOperator spider = new MajorOperator();
-        spider.operator("本科");
-        spider.operator("专科");
+        spider.downloadOperator("本科");
+        spider.downloadOperator("专科");
 
     }
-    public void operator(String typeMajor){
+    public void downloadOperator(String typeMajor){
 
         //get the origin content from data.api
         GrabContent grabContent =new GrabContent();

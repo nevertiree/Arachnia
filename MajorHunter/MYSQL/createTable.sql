@@ -20,7 +20,7 @@ create table if not exists university (
   id_university         VARCHAR(16)    primary key  ,
   name_university       varchar(64)    not null     unique,
   province_university   varchar(32)    not null,
-  type_university       varchar(8)     not null,  #普通本科 高职高专 独立学院 中外合作……
+  type_university       varchar(8)     not null, #普通本科 高职高专 独立学院 中外合作……
   property_university   VARCHAR(16)    NOT NULL, #理工类 综合类 医科类……
   is_eduMinistry_direct INT            NOT NULL,
   attribute_university  VARCHAR(32)    NOT NULL ,
@@ -53,11 +53,11 @@ CREATE TABLE IF NOT EXISTS universityDetail(
 
 #专业信息，记录通过ImportSchoolInfoIntoDB导入
 create table if not exists major (
-	codeMajor     VARCHAR(8)     PRIMARY KEY ,#以code为准
-	nameMajor     VARCHAR(64)    NOT NULL ,
-	levelMajor   VARCHAR(8)     NOT NULL ,
-  typeMajor     VARCHAR(16)    NOT NULL ,
-  rankMajor     INT            NOT NULL
+	id_major       VARCHAR(8)     PRIMARY KEY ,#以code为准
+	name_major     VARCHAR(64)    NOT NULL ,
+	level_major    VARCHAR(8)     NOT NULL ,
+  type_major     VARCHAR(16)    NOT NULL ,
+  rank_major     INT            NOT NULL
 	#unique unique_nameMajor_rankMajor (name, rank)
 )CHARACTER SET=utf8;
 
@@ -69,6 +69,19 @@ create table if not exists majorIndex (
    rank         int,
    foreign key (no) references major(no) ON DELETE CASCADE ON UPDATE CASCADE
 )CHARACTER SET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS universityAndMajor(
+  id_university            VARCHAR(16)    PRIMARY KEY ,
+  name_university          VARCHAR(64)    NOT NULL ,
+  name_major               VARCHAR(64)    NOT NULL ,
+  province_university      VARCHAR(32)    NOT NULL ,
+  type_major               VARCHAR(16)    NOT NULL ,
+  is_eduMinistry_direct    INT            NOT NULL ,
+  is_985                   INT            NOT NULL ,
+  is_211                   INT            NOT NULL ,
+  FOREIGN KEY (id_university) REFERENCES university(id_university) ON DELETE CASCADE ON UPDATE CASCADE
+)CHARACTER SET =utf8;
 
 #学期｜校历信息,
 ########univNO 可能需要修改，改为学校名字

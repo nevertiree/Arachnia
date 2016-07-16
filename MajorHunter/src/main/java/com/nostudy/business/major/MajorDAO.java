@@ -20,7 +20,7 @@ public class MajorDAO extends BaseDAO {
         try{//try to connect mysql with function connectMysql();
             connection=this.connectMysql();
             //edit the SQL query
-            String insertQuery= "replace into major (codeMajor,nameMajor,levelMajor,typeMajor,rankMajor) values(?,?,?,?,?)";
+            String insertQuery= "replace into major (id_major,name_major,level_major,type_major,rank_major) values(?,?,?,?,?)";
             PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
             //set the ? as the specific value with getMethod of VO
             preparedStatement.setString(1,majorVO.getCode());
@@ -65,5 +65,5 @@ public class MajorDAO extends BaseDAO {
         finally {closeMysql(connection);}
         return null;
     }
-    
+
 }
