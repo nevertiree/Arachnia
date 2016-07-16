@@ -42,7 +42,8 @@ public class UniversityOperator {
                 String resultAllUniversity=grabContent.grabWithJavaNet(urlAllUniversity);
 
                 if (analysisContent.valuedContent(resultAllUniversity,"school")){
-                    List<UniversityVO> universityVOs =parseUniversityRespVO(parseJSON(resultAllUniversity));
+
+                    List<UniversityVO> universityVOs =parseUniversityRespVO(parseJSON(analysisContent.parseJSONFormat(resultAllUniversity)));
                     parseUniversityVO(universityVOs);
                     pageNumber++;
                 }
@@ -53,13 +54,6 @@ public class UniversityOperator {
 
     //input the row result and return the resp VO
     public UniversityRespVO parseJSON(String rowResult){
-
-        //change all invisible symbol into space
-        rowResult=rowResult.replaceAll("\\s","");
-
-        //wrap the non-json header and tail
-        rowResult=rowResult.replaceAll("[\\w]*\\(\\{","{");
-        rowResult=rowResult.replaceAll("\\}[\\s]*][\\s]*}\\);","\\}\\]\\}");
 
         //wrap the introduction, charging standard and other thing that may be null value for json.
         rowResult=rowResult.replaceAll("\"shoufei\":\\[ \\]*?\".*?\",","\"shoufei\":\"fuck\",");

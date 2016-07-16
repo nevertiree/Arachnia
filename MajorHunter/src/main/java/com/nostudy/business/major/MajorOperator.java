@@ -33,7 +33,7 @@ public class MajorOperator {
                 urlAllMajorBK ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci="+typeMajor+"&zytype=&page="+pageNumber+"&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";//全部本科专业目录
                 String resultAllMajorBK=grabContent.grabWithJavaNet(urlAllMajorBK);//本科全部专业原始数据
                 if (analysisContent.valuedContent(resultAllMajorBK,"specialname")){
-                    List<MajorVO> majorVOs =parseMajorRespVO(parseJSON(resultAllMajorBK));
+                    List<MajorVO> majorVOs =parseMajorRespVO(parseJSON(analysisContent.parseJSONFormat(resultAllMajorBK)));
                     parseMajorVO(majorVOs);
                     pageNumber++;
                 }else break;
@@ -42,17 +42,8 @@ public class MajorOperator {
 
     }
 
-    //input the row result and return the resp VO
+    //parse the Json string to Json object
     public MajorRespVO parseJSON(String rowResult){
-
-        //change all invisible symbol into space
-        rowResult=rowResult.replaceAll("\\s"," ");
-
-        //wrap the non-json header and tail
-        rowResult=rowResult.replaceAll("[\\w]+?\\(\\{","{");
-        rowResult=rowResult.replaceAll("\\}[\\s]*?\\][\\s]*?\\}\\)","\\}\\]\\}");
-
-        //parse the Json string to Json object
         Gson gson = new Gson();
         return gson.fromJson(rowResult, MajorRespVO.class);
     }

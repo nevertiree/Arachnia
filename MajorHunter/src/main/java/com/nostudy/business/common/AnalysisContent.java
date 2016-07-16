@@ -18,4 +18,16 @@ public class AnalysisContent {
         else return false;
     }
 
+    public String parseJSONFormat(String rowData){
+
+        //change all invisible symbol into space
+        rowData=rowData.replaceAll("\\s","");
+
+        //wrap the non-json header and tail
+        rowData=rowData.replaceAll("[\\w]*\\(\\{","{");
+        rowData=rowData.replaceAll("\\}[\\s]*][\\s]*}\\);","\\}\\]\\}");
+
+        return rowData;
+    }
+
 }
