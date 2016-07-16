@@ -27,6 +27,8 @@ public class AnalysisContent {
         rowData=rowData.replaceAll("[\\w]*\\(\\{","{");
         rowData=rowData.replaceAll("\\}[\\s]*][\\s]*}\\);","\\}\\]\\}");
 
+        rowData=rowData.replaceAll("\\[\\]","\"fuck\"");
+
         return rowData;
     }
 

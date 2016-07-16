@@ -17,27 +17,32 @@ public class GrabContent {
         StringBuilder grabResult = new StringBuilder();
         BufferedReader inputBuffer=null;
 
+        URLConnection urlConnection = null;
         try{
             //prepare connection
             URL realURL =new URL(url);
-            URLConnection urlConnection = realURL.openConnection();
+            urlConnection = realURL.openConnection();
             urlConnection.connect();
 
             //prepare read
             inputBuffer=new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
-            String singleLine;
+            String singleLine = null;
             while ((singleLine=inputBuffer.readLine())!=null){
                 grabResult.append(singleLine);
             }
 
             return grabResult.toString();
-
-        }catch (Exception e){e.printStackTrace();}
-
-        finally {try{if (inputBuffer!=null){
+        }catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try{
+                if (inputBuffer!=null){
                     inputBuffer.close();
-                    return grabResult.toString();}
+                    return grabResult.toString();
+                }
+                inputBuffer = null;
+                urlConnection = null;
             }catch (Exception e2) {e2.printStackTrace();}
         }
 
@@ -51,53 +56,32 @@ public class GrabContent {
 
         GrabContent grabContent= new GrabContent();
 
-        String urlAllUniversity="http://data.api.gkcx.eol.cn/soudaxue/queryschool.html?messtype=jsonp&province=&schooltype=&page=1&size=50&keyWord1=&schoolprop=&schoolflag=&schoolsort=&schoolid=&callback=jQuery1830041806086262917264_1468555273424&_=1468555274537.";
+        String urlAllUniversity="http://data.api.gkcx.eol.cn/soudaxue/querySchoolSpecialty.html?messtype=jsonp&zycengci=&page=1&size=10&keyWord1=%E7%94%B5%E5%AD%90%E5%95%86%E5%8A%A1&province=&schooltype=&schoolprop=&callback=jQuery18307610225111401336_1468630663527&_=1468630664312%22";
 
         String rowResult=grabContent.grabWithJavaNet(urlAllUniversity);
 
-        /*resultAllUniversity=resultAllUniversity.replaceAll("\"shoufei\": \"\\.\\*\",","\"shoufei\": \"shoufei\",");
-        resultAllUniversity=resultAllUniversity.replaceAll("\\[\\],","\"shoufei\": \"null\",");*/
+        //rowResult=rowResult.replaceAll(":[ ]+?\".+[\\(].+?[\\)]\"",":[ ]+?\".+[（].+?[）]\"");
 
-        /*Pattern patternShoufei =Pattern.compile("\\\"shoufei\\\": \\\".*\\\",");
-        Matcher matcherShoufei =patternShoufei.matcher(resultAllUniversity);
-        matcherShoufei.replaceAll("\"shoufei\": \"null\",");
+        /*Pattern pattern =Pattern.compile("(:[ ]+?\".+)([\\(])(.+?)([\\)])(\")");
+        Matcher matcher=pattern.matcher(rowResult);
 
-        Pattern patternJianjie=Pattern.compile("\\\"jianjie\": \\\".*\\\",");
-        Matcher matcherJianjie=patternShoufei.matcher(resultAllUniversity);
-        matcherJianjie.replaceAll("\"jianjie\": \"null\",");*/
+        if (matcher.find()){
+            rowResult.replaceAll("\\"+matcher.group(2),"【");
+            rowResult.replaceAll("\\"+matcher.group(4),"】");
 
-        String jsonStr =null;
+        }*/
+        rowResult=rowResult.replaceAll("\\(","【");
+        rowResult=rowResult.replaceAll("\\)","】");
+
+        rowResult=rowResult.replaceAll("【\\{[\\s]*?\"","\\(");
+        rowResult=rowResult.replaceAll("\\}[\\s]*?\\][\\s]*?\\}】;","\\)");
+
+        rowResult=rowResult.replaceAll("\\[\\]","\"fuck\"");
 
         rowResult=rowResult.replaceAll("\\s","");
 
-        rowResult=rowResult.replaceAll("[\\w]*\\(\\{","{");
-        rowResult=rowResult.replaceAll("\\}[\\s]*][\\s]*}\\);","\\}\\]\\}");
-
-        rowResult=rowResult.replaceAll("\"shoufei\":\".*?\",","\"shoufei\":\"fuck\",");
-        rowResult=rowResult.replaceAll("\"jianjie\":\".*?\",","\"jianjie\":\"fuck\",");
-        rowResult=rowResult.replaceAll("\\[\\]","\"fuck\"");
-
-       /* int startSite = rowResult.indexOf("({\n" +
-                " \"totalRecord\"");
-        if (startSite  != -1) {
-            int end = rowResult.indexOf(" }\n" +
-                    " ]\n" +
-                    "})");
-            jsonStr = rowResult.substring(startSite + 1, end);*/
-
-
-            /*Pattern patternShoufei =Pattern.compile("\"shoufei\":\".*?\",");
-            Matcher matcherShoufei =patternShoufei.matcher(jsonStr);
-            matcherShoufei.replaceAll("\"shoufei\":\"fuck\",");
-
-            Pattern patternJianjie=Pattern.compile("\"jianjie\":\".*?\",\"");
-            Matcher matcherJianjie=patternShoufei.matcher(jsonStr);
-            matcherJianjie.replaceAll("\"jianjie\":\"fuck\",");
-
-
-        }*/
         System.out.println(rowResult);
-
+        //System.out.println(matcher.group());
 
     }
 

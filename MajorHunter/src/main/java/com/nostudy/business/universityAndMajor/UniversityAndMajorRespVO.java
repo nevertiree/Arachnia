@@ -15,11 +15,11 @@ public class UniversityAndMajorRespVO {
     }
 
     private Num totalRecord;
-    private List<UniversityRowVO> school;
+    private List<UniversityAndMajorRowVO> school;
 
     public Num getTotalRecord() {return totalRecord;}
     public void setTotalRecord(Num totalRecord) {this.totalRecord = totalRecord;}
 
-    public List<UniversityRowVO> getSchool() {return school;}
-    public void setSchool(List<UniversityRowVO> school) {this.school = school;}
+    public List<UniversityAndMajorRowVO> getSchool() {return school;}
+    public void setSchool(List<UniversityAndMajorRowVO> school) {this.school = school;}
 }
