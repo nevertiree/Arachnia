@@ -45,19 +45,16 @@ public class MajorOperator {
     //input the row result and return the resp VO
     public MajorRespVO parseJSON(String rowResult){
 
-        //get the core JSON string
-        String jsonStr;
-        int startSite = rowResult.indexOf("(");
-        if (startSite  != -1) {
-            int end = rowResult.indexOf(")");
-            jsonStr = rowResult.substring(startSite + 1, end);
-        }else return null;
+        //change all invisible symbol into space
+        rowResult=rowResult.replaceAll("\\s"," ");
 
-        //parse the Json string
+        //wrap the non-json header and tail
+        rowResult=rowResult.replaceAll("[\\w]+?\\(\\{","{");
+        rowResult=rowResult.replaceAll("\\}[\\s]*?\\][\\s]*?\\}\\)","\\}\\]\\}");
+
+        //parse the Json string to Json object
         Gson gson = new Gson();
-        MajorRespVO majorRespVO = gson.fromJson(jsonStr, MajorRespVO.class);
-
-        return majorRespVO;
+        return gson.fromJson(rowResult, MajorRespVO.class);
     }
 
     //parse the MajorRespVO

@@ -54,44 +54,21 @@ public class UniversityOperator {
     //input the row result and return the resp VO
     public UniversityRespVO parseJSON(String rowResult){
 
-        //get the core JSON string
-       /* String jsonStr;*/
-        Gson gson = new Gson();
-/*
-        int startSite = rowResult.indexOf("(");
-        if (startSite  != -1) {
-            int end = rowResult.indexOf(")");
-            jsonStr = rowResult.substring(startSite + 1, end);
-
-            *//*Pattern patternShoufei =Pattern.compile("\"shoufei\":\".*?\",");
-            Matcher matcherShoufei =patternShoufei.matcher(jsonStr);
-            matcherShoufei.replaceAll("\"shoufei\":\"fuck\",");
-
-            Pattern patternJianjie=Pattern.compile("\"jianjie\":\".*?\",\"");
-            Matcher matcherJianjie=patternShoufei.matcher(jsonStr);
-            matcherJianjie.replaceAll("\"jianjie\":\"fuck\",");*//*
-
-            jsonStr=jsonStr.replaceAll("\"shoufei\": \".*?\",","\"shoufei\": \"fuck\",");
-            jsonStr=jsonStr.replaceAll("\"jianjie\": \".*?\",","\"jianjie\": \"fuck\",");
-            jsonStr=jsonStr.replaceAll("\\[\\]","\"fuck\"");
-            jsonStr=jsonStr.replaceAll("\\s","");
-
-        }else return null;
-
-        //parse the Json string*/
-
+        //change all invisible symbol into space
         rowResult=rowResult.replaceAll("\\s","");
 
+        //wrap the non-json header and tail
         rowResult=rowResult.replaceAll("[\\w]*\\(\\{","{");
         rowResult=rowResult.replaceAll("\\}[\\s]*][\\s]*}\\);","\\}\\]\\}");
 
-        rowResult=rowResult.replaceAll("\"shoufei\":\".*?\",","\"shoufei\":\"fuck\",");
-        rowResult=rowResult.replaceAll("\"jianjie\":\".*?\",","\"jianjie\":\"fuck\",");
+        //wrap the introduction, charging standard and other thing that may be null value for json.
+        rowResult=rowResult.replaceAll("\"shoufei\":\\[ \\]*?\".*?\",","\"shoufei\":\"fuck\",");
+        rowResult=rowResult.replaceAll("\"jianjie\":\\[ \\]*?\".*?\",","\"jianjie\":\"fuck\",");
         rowResult=rowResult.replaceAll("\\[\\]","\"fuck\"");
 
-        UniversityRespVO universityRespVO = gson.fromJson(rowResult, UniversityRespVO.class);
-
-        return universityRespVO;
+        //parse the json string to json value
+        Gson gson = new Gson();
+        return gson.fromJson(rowResult, UniversityRespVO.class);
     }
 
     //parse the MajorRespVO
