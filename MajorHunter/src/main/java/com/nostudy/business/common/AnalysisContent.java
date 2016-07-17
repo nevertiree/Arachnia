@@ -8,18 +8,9 @@ import java.util.regex.Pattern;
  */
 public class AnalysisContent {
 
-    //analysis whether that page have valued infomation (targetContent)
-    public boolean valuedContent(String wholeContent,String targetContent){
+    private AnalysisContent(){}
 
-        Pattern pattern = Pattern.compile(targetContent);
-        Matcher matcher=pattern.matcher(wholeContent);
-
-        if (matcher.find()){return true;}
-        else return false;
-    }
-
-    public String parseJSONFormat(String rowData){
-
+    public static String parseJSONFormat(String rowData){
         //change all invisible symbol into space
         rowData=rowData.replaceAll("\\s","");
 
@@ -27,9 +18,7 @@ public class AnalysisContent {
         rowData=rowData.replaceAll("[\\w]*\\(\\{","{");
         rowData=rowData.replaceAll("\\}[\\s]*][\\s]*}\\);","\\}\\]\\}");
 
-        rowData=rowData.replaceAll("\\[\\]","\"fuck\"");
-
-        return rowData;
+        return rowData.replaceAll("\\[\\]","\"nothing\"");
     }
 
 }

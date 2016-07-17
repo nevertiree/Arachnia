@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
  */
 public class GrabContent {
 
+    private GrabContent(){}
+
     public static String grabWithJavaNet(String url){
 
         StringBuilder grabResult = new StringBuilder();
@@ -47,42 +49,6 @@ public class GrabContent {
         }
 
         return grabResult.toString();
-    }
-
-    public static void main(String[] args){
-        //String testURL ="http://gkcx.eol.cn/schoolhtm/schoolTemple/school3000.htm";学校详细信息
-
-        //String testURL="http://gkcx.eol.cn/schoolhtm/specialty/specialtyList/specialty31.htm";，某大学全部专业
-
-        GrabContent grabContent= new GrabContent();
-
-        String urlAllUniversity="http://data.api.gkcx.eol.cn/soudaxue/querySchoolSpecialty.html?messtype=jsonp&zycengci=&page=1&size=10&keyWord1=%E7%94%B5%E5%AD%90%E5%95%86%E5%8A%A1&province=&schooltype=&schoolprop=&callback=jQuery18307610225111401336_1468630663527&_=1468630664312%22";
-
-        String rowResult=grabContent.grabWithJavaNet(urlAllUniversity);
-
-        //rowResult=rowResult.replaceAll(":[ ]+?\".+[\\(].+?[\\)]\"",":[ ]+?\".+[（].+?[）]\"");
-
-        /*Pattern pattern =Pattern.compile("(:[ ]+?\".+)([\\(])(.+?)([\\)])(\")");
-        Matcher matcher=pattern.matcher(rowResult);
-
-        if (matcher.find()){
-            rowResult.replaceAll("\\"+matcher.group(2),"【");
-            rowResult.replaceAll("\\"+matcher.group(4),"】");
-
-        }*/
-        rowResult=rowResult.replaceAll("\\(","【");
-        rowResult=rowResult.replaceAll("\\)","】");
-
-        rowResult=rowResult.replaceAll("【\\{[\\s]*?\"","\\(");
-        rowResult=rowResult.replaceAll("\\}[\\s]*?\\][\\s]*?\\}】;","\\)");
-
-        rowResult=rowResult.replaceAll("\\[\\]","\"fuck\"");
-
-        rowResult=rowResult.replaceAll("\\s","");
-
-        System.out.println(rowResult);
-        //System.out.println(matcher.group());
-
     }
 
 }

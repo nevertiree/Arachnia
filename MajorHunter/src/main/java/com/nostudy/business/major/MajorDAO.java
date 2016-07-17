@@ -14,39 +14,45 @@ import java.util.List;
  */
 public class MajorDAO extends BaseDAO {
 
-    public boolean insertMajor(MajorVO majorVO){
+    private MajorDAO(){}
+
+    public static boolean insertMajor(MajorVO majorVO){
+
         Connection connection =null;
 
         if (majorVO==null){return true;}
 
-        try{//try to connect mysql with function connectMysql();
-            connection=this.connectMysql();
+        try{
+            //try to connect mysql with function connectMysql();
+            connection=connectMysql();
+
             //edit the SQL query
             String insertQuery= "replace into major (id_major,name_major,level_major,type_major,rank_major) values(?,?,?,?,?)";
-            PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
+
             //set the ? as the specific value with getMethod of VO
+            PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
             preparedStatement.setString(1,majorVO.getCode());
             preparedStatement.setString(2,majorVO.getSpecialname());
             preparedStatement.setString(3,majorVO.getZycengci());
             preparedStatement.setString(4,majorVO.getZytype());
             preparedStatement.setInt(5,majorVO.getRankingType());
-            //execute the SQL query
-            int affectedCount = preparedStatement.executeUpdate();
-            //judge if success insert
-            if (affectedCount>0){return true;}
+
+            //execute the SQL query and judge if success insert
+            return ((preparedStatement.executeUpdate()>0)?true:false);
 
         }catch (Exception e){e.printStackTrace();}
-        finally {this.closeMysql(connection);}
+        finally {closeMysql(connection);}
         return false;
     }
 
-    public List<MajorVO> selectAllMajor(){
+    public static List<MajorVO> selectAllMajor(){
+
         List<MajorVO> majorVOs =new ArrayList<MajorVO>();
 
         Connection connection=null;
 
         try {//try to connect mysql with the connectMysql method
-            connection=this.connectMysql();
+            connection=connectMysql();
             //prepare and execute SQL query
             String selectQuery="select * from major;";
             PreparedStatement preparedStatement=connection.prepareStatement(selectQuery);

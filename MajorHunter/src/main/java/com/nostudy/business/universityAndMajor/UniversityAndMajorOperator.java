@@ -3,6 +3,7 @@ package com.nostudy.business.universityAndMajor;
 import com.google.gson.Gson;
 import com.nostudy.business.common.AnalysisContent;
 import com.nostudy.business.common.GrabContent;
+import com.nostudy.business.common.IsValueInfo;
 import com.nostudy.business.major.MajorDAO;
 import com.nostudy.business.major.MajorOperator;
 import com.nostudy.business.major.MajorVO;
@@ -25,9 +26,6 @@ public class UniversityAndMajorOperator {
 
     public void downloadOperator(){
 
-        GrabContent grabContent =new GrabContent();
-        AnalysisContent analysisContent=new AnalysisContent();
-
         List<MajorVO> originMajor=getOriginMajor();
         MajorOperator majorOperator=new MajorOperator();
 
@@ -40,11 +38,11 @@ public class UniversityAndMajorOperator {
                 while (true){
                     String url="http://data.api.gkcx.eol.cn/soudaxue/querySchoolSpecialty.html?messtype=jsonp&zycengci=&page="+pageNumber+"&size=10&keyWord1="+majorVO.getSpecialname()+"&province=&schooltype=&schoolprop=&callback=jQuery18307610225111401336_1468630663527&_=1468630664312";
 
-                    try {
-                        result =grabContent.grabWithJavaNet(url);
-                        if (analysisContent.valuedContent(result,"school")){
+                    try {result =GrabContent.grabWithJavaNet(url);
+                        if (
+                            IsValueInfo.getInstance(url,"school")){
                             //First move header and tail
-                            result=analysisContent.parseJSONFormat(result);
+                            result=AnalysisContent.parseJSONFormat(result);
                             List<UniversityAndMajorVO> vos =praseUniversityAndMajorRespVO((parseJSON(result)));
 
                             praseUniversityAndMajorVO(vos);
@@ -67,8 +65,7 @@ public class UniversityAndMajorOperator {
 
     //attach info from major table
     public List<MajorVO> getOriginMajor(){
-        MajorDAO majorDAO=new MajorDAO();
-        return majorDAO.selectAllMajor();
+        return MajorDAO.selectAllMajor();
     }
 
     //input the row result and return the resp VO

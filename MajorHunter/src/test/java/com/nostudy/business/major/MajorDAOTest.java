@@ -10,27 +10,20 @@ import org.junit.Test;
  */
 public class MajorDAOTest {
 
-    MajorDAO dao;
-
     @Before
     public void setup(){
-        dao = new MajorDAO();
     }
 
 
     @Test
     public void testInsertMajor(){
         MajorVO vo = new MajorVO("991-aaa", "none","本科","哲学",3);
-        boolean success = dao.insertMajor(vo);
+        boolean success = MajorDAO.insertMajor(vo);
         Assert.assertEquals(success, true);
 
         vo = new MajorVO("991-aaa", "none","本科","哲学", 3);
-        success = dao.insertMajor(vo);
+        success = MajorDAO.insertMajor(vo);
         Assert.assertEquals(success, true);
     }
 
-    @After
-    public void tearDown(){
-        dao = null;
-    }
 }

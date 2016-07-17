@@ -9,21 +9,22 @@ import java.sql.SQLException;
  */
 public class BaseDAO {
 
-    public Connection connectMysql(){
+    protected BaseDAO(){}
+
+    public static Connection connectMysql(){
         try {
             //load the jdbc driver class of mysql
             Class.forName("com.mysql.jdbc.Driver");
 //            Class.forName("com.mysql.cj.jdbc.Driver");
-            //try to connect mysql with user as root and password as 0512
-            Connection connection= DriverManager.getConnection(
+
+            return DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/Spider",
                     "root","0512");
-            return connection;
         }catch (Exception e) {e.printStackTrace();}
         return null;
     }
 
-    public void closeMysql(Connection connection){
+    public static void closeMysql(Connection connection){
         if (connection!=null){
             try {
                 connection.close();
