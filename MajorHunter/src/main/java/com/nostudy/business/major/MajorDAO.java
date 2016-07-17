@@ -17,6 +17,8 @@ public class MajorDAO extends BaseDAO {
     public boolean insertMajor(MajorVO majorVO){
         Connection connection =null;
 
+        if (majorVO==null){return true;}
+
         try{//try to connect mysql with function connectMysql();
             connection=this.connectMysql();
             //edit the SQL query
