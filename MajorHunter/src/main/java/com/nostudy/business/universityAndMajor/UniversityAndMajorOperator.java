@@ -27,7 +27,6 @@ public class UniversityAndMajorOperator {
     public void downloadOperator(){
 
         List<MajorVO> originMajor=getOriginMajor();
-        MajorOperator majorOperator=new MajorOperator();
 
         int seconds = 0;
         Random random = new Random();
@@ -36,21 +35,21 @@ public class UniversityAndMajorOperator {
                 int pageNumber=1;
                 String result = null;
                 while (true){
-                    String url="http://data.api.gkcx.eol.cn/soudaxue/querySchoolSpecialty.html?messtype=jsonp&zycengci=&page="+pageNumber+"&size=10&keyWord1="+majorVO.getSpecialname()+"&province=&schooltype=&schoolprop=&callback=jQuery18307610225111401336_1468630663527&_=1468630664312";
+                    String url="http://data.api.gkcx.eol.cn/soudaxue/querySchoolSpecialty.html?messtype=jsonp&zycengci=&page="+pageNumber+"&size=10000&keyWord1="+majorVO.getSpecialname()+"&province=&schooltype=&schoolprop=&callback=jQuery18307610225111401336_1468630663527&_=1468630664312";
 
-                    try {result =GrabContent.grabWithJavaNet(url);
-                        if (
-                            IsValueInfo.getInstance(url,"school")){
+                    try {result =GrabContent.grabWithHttpClient(url);
+                        if (IsValueInfo.getInstance(result,"school")){
                             //First move header and tail
                             result=AnalysisContent.parseJSONFormat(result);
-                            List<UniversityAndMajorVO> vos =praseUniversityAndMajorRespVO((parseJSON(result)));
+                            List<UniversityAndMajorVO> vos =praseUniversityAndMajorRespVO((parseJSON(result)),majorVO.getSpecialname());
 
-                            praseUniversityAndMajorVO(vos);
-                            majorOperator.parseMajorVO(analysisDiffMajor(majorVO,vos));
+                            UniversityAndMajorDAO.insertUniversityAndMajor(vos);
+                            //majorOperator.parseMajorVO(analysisDiffMajor(majorVO,vos));
                             pageNumber++;
 
-                            seconds = random.nextInt(2)*1000;
+                            seconds = random.nextInt(2)*100;
                             Thread.currentThread().sleep(seconds);
+
                         }else break;
 
                     }catch (Exception e){
@@ -86,7 +85,7 @@ public class UniversityAndMajorOperator {
     }
 
     //trans UniversityAndMajorResp into UniversityRow
-    public List<UniversityAndMajorVO> praseUniversityAndMajorRespVO(UniversityAndMajorRespVO universityAndMajorRespVO ){
+    public List<UniversityAndMajorVO> praseUniversityAndMajorRespVO(UniversityAndMajorRespVO universityAndMajorRespVO ,String father_major ){
 
         List<UniversityAndMajorVO>  universityAndMajorVOs=new ArrayList<>();
 
@@ -101,19 +100,13 @@ public class UniversityAndMajorOperator {
                 vo.setF985(sourceVO.getF985());
                 vo.setF211(sourceVO.getF211());
                 vo.setSchoolprovince(sourceVO.getSchoolprovince());
+                vo.setFather_major(father_major);
                 universityAndMajorVOs.add(vo);
             }catch (Exception e){e.printStackTrace();}
         }
         return universityAndMajorVOs;
     }
 
-    //parse UniversityAndMajorVO into DAO and insert them
-    public void praseUniversityAndMajorVO(List<UniversityAndMajorVO> vos){
-        for (UniversityAndMajorVO vo:vos){
-            UniversityAndMajorDAO dao =new UniversityAndMajorDAO();
-            dao.insertUniversityAndMajor(vo);
-        }
-    }
 
     //analysis the different name major
     public List<MajorVO> analysisDiffMajor(MajorVO originMajorVO, List<UniversityAndMajorVO> universityAndMajorVOs) {

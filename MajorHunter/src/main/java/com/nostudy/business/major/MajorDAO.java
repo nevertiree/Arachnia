@@ -27,6 +27,7 @@ public class MajorDAO extends BaseDAO {
             connection=connectMysql();
 
             //edit the SQL query
+            connection.setAutoCommit(false);
             String insertQuery= "replace into major (id_major,name_major,level_major,type_major,rank_major) values(?,?,?,?,?)";
 
             //set the ? as the specific value with getMethod of VO

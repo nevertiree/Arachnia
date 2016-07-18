@@ -72,7 +72,7 @@ create table if not exists majorIndex (
 
 
 CREATE TABLE IF NOT EXISTS universityAndMajor(
-  id_university            VARCHAR(16)    PRIMARY KEY ,
+  id_university            VARCHAR(16)    NOT NULL ,
   name_university          VARCHAR(64)    NOT NULL ,
   name_major               VARCHAR(64)    NOT NULL ,
   province_university      VARCHAR(32)    NOT NULL ,
@@ -80,8 +80,10 @@ CREATE TABLE IF NOT EXISTS universityAndMajor(
   is_eduMinistry_direct    INT            NOT NULL ,
   is_985                   INT            NOT NULL ,
   is_211                   INT            NOT NULL ,
-  FOREIGN KEY (id_university) REFERENCES university(id_university) ON DELETE CASCADE ON UPDATE CASCADE
-)CHARACTER SET =utf8;
+  father_major             VARCHAR(32)    NOT NULL ,
+  PRIMARY KEY (name_major,name_university)
+)CHARACTER SET =utf8,
+MAX_ROWS = 1000000;
 
 #学期｜校历信息,
 ########univNO 可能需要修改，改为学校名字

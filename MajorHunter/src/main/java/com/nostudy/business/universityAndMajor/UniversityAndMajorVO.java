@@ -12,6 +12,7 @@ public class UniversityAndMajorVO {
     private int edudirectly;
     private int f985;
     private int f211;
+    private String father_major;
 
     public UniversityAndMajorVO() {}
 
@@ -77,5 +78,13 @@ public class UniversityAndMajorVO {
 
     public void setF211(int f211) {
         this.f211 = f211;
+    }
+
+    public String getFather_major() {
+        return father_major;
+    }
+
+    public void setFather_major(String father_major) {
+        this.father_major = father_major;
     }
 }

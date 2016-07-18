@@ -28,7 +28,7 @@ public class MajorOperator {
             while(true){
                 urlAllMajorBK ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci="+typeMajor+"&zytype=&page="+pageNumber+"&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";//全部本科专业目录
                 String resultAllMajorBK=GrabContent.grabWithJavaNet(urlAllMajorBK);//本科全部专业原始数据
-                if (/*analysisContent.valuedContent(resultAllMajorBK,"specialname")*/IsValueInfo.getInstance(resultAllMajorBK,"specialname")){
+                if (IsValueInfo.getInstance(resultAllMajorBK,"specialname")){
                     List<MajorVO> majorVOs =parseMajorRespVO(parseJSON(AnalysisContent.parseJSONFormat(resultAllMajorBK)));
                     parseMajorVO(majorVOs);
                     pageNumber++;
@@ -39,10 +39,19 @@ public class MajorOperator {
     }
 
     //parse the Json string to Json object
+   /* public MajorRespVO parseJSON(String rowResult){
+        Gson gson = new Gson();
+        return gson.fromJson(rowResult, MajorRespVO.class);
+    }
+*/
+
+    //parse the Json string to Json object
     public MajorRespVO parseJSON(String rowResult){
         Gson gson = new Gson();
         return gson.fromJson(rowResult, MajorRespVO.class);
     }
+
+
 
     //parse the MajorRespVO
     public List<MajorVO> parseMajorRespVO(MajorRespVO majorRespVO){
