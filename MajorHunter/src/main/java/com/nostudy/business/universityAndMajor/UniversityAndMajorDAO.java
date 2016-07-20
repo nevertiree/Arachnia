@@ -39,10 +39,7 @@ public class UniversityAndMajorDAO extends BaseDAO {
                 preparedStatement.setString(3,universityAndMajorVO.getSpecialtyname());
                 preparedStatement.setString(4,universityAndMajorVO.getSchoolprovince());
                 preparedStatement.setString(5,universityAndMajorVO.getSpecialtytype());
-                preparedStatement.setInt(6,universityAndMajorVO.getEdudirectly());
-                preparedStatement.setInt(7,universityAndMajorVO.getF985());
-                preparedStatement.setInt(8,universityAndMajorVO.getF211());
-                preparedStatement.setString(9,universityAndMajorVO.getFather_major());
+
                 preparedStatement.addBatch();
             }
 
@@ -51,7 +48,6 @@ public class UniversityAndMajorDAO extends BaseDAO {
             affectedNum=preparedStatement.executeUpdate();
             System.out.println("affectedNum="+affectedNum);
             connection.commit();
-
         }catch (SQLException e2){e2.printStackTrace();}
         finally{closeMysql(connection);}
     }

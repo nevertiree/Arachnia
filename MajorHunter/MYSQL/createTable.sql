@@ -85,6 +85,7 @@ CREATE TABLE IF NOT EXISTS universityAndMajor(
 )CHARACTER SET =utf8,
 MAX_ROWS = 1000000;
 
+
 #学期｜校历信息,
 ########univNO 可能需要修改，改为学校名字
 CREATE TABLE if not exists terms(

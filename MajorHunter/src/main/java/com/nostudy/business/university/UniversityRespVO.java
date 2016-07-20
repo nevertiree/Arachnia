@@ -1,10 +1,15 @@
 package com.nostudy.business.university;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.List;
 
 /**
  * Created by Lance on 7/15/16.
  */
+@AllArgsConstructor
+@Data
 public class UniversityRespVO {
 
     final public class Num {
@@ -16,19 +21,5 @@ public class UniversityRespVO {
 
     private Num totalRecord;
     private List<UniversityRowVO> school;
-
-    public Num getTotalRecord() {
-        return totalRecord;
-    }
-    public void setTotalRecord(Num totalRecord) {
-        this.totalRecord = totalRecord;
-    }
-
-    public List<UniversityRowVO> getSchool() {
-        return school;
-    }
-    public void setSchool(List<UniversityRowVO> school) {
-        this.school = school;
-    }
 
 }
