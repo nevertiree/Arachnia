@@ -22,8 +22,6 @@ public class UniversityAndMajorDAO extends BaseDAO {
     public static void insertUniversityAndMajor(List<UniversityAndMajorVO> universityAndMajorVOs){
 
         Connection connection=null;
-        int affectedNum =0;
-        int listSize = universityAndMajorVOs.size();
 
         try {
             connection=connectMysql();
@@ -47,9 +45,7 @@ public class UniversityAndMajorDAO extends BaseDAO {
             }
 
             //judge if inserting successfully;
-            int [] counts = preparedStatement.executeBatch();
-            affectedNum=preparedStatement.executeUpdate();
-            System.out.println("affectedNum="+affectedNum);
+
             connection.commit();
 
         }catch (SQLException e2){e2.printStackTrace();}

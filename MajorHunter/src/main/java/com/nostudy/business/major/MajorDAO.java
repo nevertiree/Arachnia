@@ -16,11 +16,9 @@ public class MajorDAO extends BaseDAO {
 
     private MajorDAO(){}
 
-    public static boolean insertMajor(MajorVO majorVO){
+    public static void insertMajor(List<MajorVO> majorVOs){
 
         Connection connection =null;
-
-        if (majorVO==null){return true;}
 
         try{
             //try to connect mysql with function connectMysql();
@@ -28,22 +26,23 @@ public class MajorDAO extends BaseDAO {
 
             //edit the SQL query
             connection.setAutoCommit(false);
-            String insertQuery= "replace into major (id_major,name_major,level_major,type_major,rank_major) values(?,?,?,?,?)";
-
-            //set the ? as the specific value with getMethod of VO
+            String insertQuery= "replace into major (no,name,level,type,rank) values(?,?,?,?,?)";
             PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
-            preparedStatement.setString(1,majorVO.getCode());
-            preparedStatement.setString(2,majorVO.getSpecialname());
-            preparedStatement.setString(3,majorVO.getZycengci());
-            preparedStatement.setString(4,majorVO.getZytype());
-            preparedStatement.setInt(5,majorVO.getRankingType());
 
-            //execute the SQL query and judge if success insert
-            return ((preparedStatement.executeUpdate()>0)?true:false);
+            for (MajorVO vo:majorVOs){
+                //set the ? as the specific value with getMethod of VO
+                preparedStatement.setString(1,vo.getCode());
+                preparedStatement.setString(2,vo.getSpecialname());
+                preparedStatement.setString(3,vo.getZycengci());
+                preparedStatement.setString(4,vo.getZytype());
+                preparedStatement.setInt(5,vo.getRankingType());
+                preparedStatement.addBatch();
+            }
+
+            connection.commit();
 
         }catch (Exception e){e.printStackTrace();}
         finally {closeMysql(connection);}
-        return false;
     }
 
     public static List<MajorVO> selectAllMajor(){
