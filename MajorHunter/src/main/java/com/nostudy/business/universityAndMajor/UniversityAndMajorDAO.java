@@ -35,7 +35,6 @@ public class UniversityAndMajorDAO extends BaseDAO {
                 preparedStatement.setString(1,universityAndMajorVO.getSchoolid());
                 preparedStatement.setString(2,universityAndMajorVO.getMajorid());
                 preparedStatement.setString(3,universityAndMajorVO.getSpecialtyname());
-                preparedStatement.setString(4,universityAndMajorVO.getSpecialtytype());
                 preparedStatement.addBatch();
             }
 
@@ -44,7 +43,6 @@ public class UniversityAndMajorDAO extends BaseDAO {
             //judge if inserting successfully;
 
             connection.commit();
-
         }catch (SQLException e2){e2.printStackTrace();}
         finally{closeMysql(connection);}
     }

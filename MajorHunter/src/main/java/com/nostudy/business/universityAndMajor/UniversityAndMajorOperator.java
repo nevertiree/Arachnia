@@ -86,9 +86,8 @@ public class UniversityAndMajorOperator {
                         UniversityAndMajorDAO.insertUniversityAndMajor(umvo);
 
                         //得到多个major表VO对象（用于添加各式各样的专业别名）
-                        List<MajorVO> mvo= praseDuplicateMajor((parseJSON(result)),majorVO);
+
                         //把专业别名插入数据库
-                        MajorDAO.insertMajor(mvo);
 
                         pageNumber++;
 
@@ -154,25 +153,6 @@ public class UniversityAndMajorOperator {
         return universityAndMajorVOs;
     }
 
-    public List<MajorVO> praseDuplicateMajor(UniversityAndMajorRespVO universityAndMajorRespVO ,MajorVO majorVO){
-        List<MajorVO> majorVOs=new ArrayList<>();
-
-        int counter = 1;
-
-        for (UniversityAndMajorRowVO sourceVO :universityAndMajorRespVO.getSchool()){
-            try {
-                MajorVO mvo=new MajorVO();
-                mvo.setCode(identifierTrans(counter));
-                mvo.setSpecialname(majorVO.getSpecialname());
-                mvo.setZycengci(majorVO.getZycengci());
-                mvo.setZytype(majorVO.getZytype());
-                mvo.setRankingType(majorVO.getRankingType());
-                majorVOs.add(mvo);
-
-            }catch (Exception UAndM){UAndM.printStackTrace();}
-        }
-        return majorVOs;
-    }
 
 
     //analysis the different name major
