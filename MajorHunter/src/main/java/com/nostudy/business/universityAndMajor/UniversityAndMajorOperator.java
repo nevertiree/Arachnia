@@ -72,6 +72,10 @@ public class UniversityAndMajorOperator {
 
         rowResult=rowResult.replaceAll("\\(","【");
         rowResult=rowResult.replaceAll("\\)","】");
+
+        rowResult=rowResult.replaceAll("（","【");
+        rowResult=rowResult.replaceAll("）","】");
+
         //deal with the () problem
         rowResult=rowResult.replaceAll("【\\{[\\s]*?\"","\\(");
         rowResult=rowResult.replaceAll("\\}[\\s]*?\\][\\s]*?\\}】;","\\)");
