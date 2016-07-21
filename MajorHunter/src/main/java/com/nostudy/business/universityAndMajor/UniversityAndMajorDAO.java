@@ -33,11 +33,13 @@ public class UniversityAndMajorDAO extends BaseDAO {
 
             for (UniversityAndMajorVO universityAndMajorVO:universityAndMajorVOs) {
                 preparedStatement.setString(1,universityAndMajorVO.getSchoolid());
-                preparedStatement.setString(1,universityAndMajorVO.getMajorid());
+                preparedStatement.setString(2,universityAndMajorVO.getMajorid());
                 preparedStatement.setString(3,universityAndMajorVO.getSpecialtyname());
                 preparedStatement.setString(4,universityAndMajorVO.getSpecialtytype());
                 preparedStatement.addBatch();
             }
+
+            preparedStatement.addBatch();
 
             //judge if inserting successfully;
 

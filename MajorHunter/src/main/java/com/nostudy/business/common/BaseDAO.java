@@ -18,7 +18,7 @@ public class BaseDAO {
 //            Class.forName("com.mysql.cj.jdbc.Driver");
 
             return DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/Spider",
+                    "jdbc:mysql://localhost:3306/nostudy",
                     "root","0512");
         }catch (Exception e) {e.printStackTrace();}
         return null;

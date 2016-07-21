@@ -39,6 +39,8 @@ public class MajorDAO extends BaseDAO {
                 preparedStatement.addBatch();
             }
 
+            preparedStatement.executeBatch();
+
             connection.commit();
 
         }catch (Exception e){e.printStackTrace();}
@@ -60,11 +62,11 @@ public class MajorDAO extends BaseDAO {
             ResultSet resultSet=preparedStatement.executeQuery();
             while (resultSet.next()){
                 MajorVO majorVO=new MajorVO();
-                majorVO.setCode(resultSet.getString("id_major"));
-                majorVO.setSpecialname(resultSet.getString("name_major"));
-                majorVO.setZycengci(resultSet.getString("level_major"));
-                majorVO.setZytype(resultSet.getString("type_major"));
-                majorVO.setRankingType(resultSet.getInt("rank_major"));
+                majorVO.setCode(resultSet.getString("no"));
+                majorVO.setSpecialname(resultSet.getString("name"));
+                majorVO.setZycengci(resultSet.getString("level"));
+                majorVO.setZytype(resultSet.getString("type"));
+                majorVO.setRankingType(resultSet.getInt("rank"));
                 majorVOs.add(majorVO);
             }
             return majorVOs;

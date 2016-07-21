@@ -63,14 +63,6 @@ public class UniversityOperator {
                 universityVO.setSchoolid(universityRowVO.getSchoolid());
                 universityVO.setSchoolname(universityRowVO.getSchoolname());
                 universityVO.setProvince(universityRowVO.getProvince());
-                universityVO.setSchooltype(universityRowVO.getSchooltype());
-                universityVO.setSchoolproperty(universityRowVO.getSchoolproperty());
-                universityVO.setEdudirectly(universityRowVO.getEdudirectly());
-                universityVO.setMembership(universityRowVO.getMembership());
-                universityVO.setF985(universityRowVO.getF985());
-                universityVO.setF211(universityRowVO.getF211());
-                universityVO.setLevel(universityRowVO.getLevel());
-                universityVO.setSchoolnature(universityRowVO.getSchoolnature());
 
                 resultUniversityVOs.add(universityVO);
 

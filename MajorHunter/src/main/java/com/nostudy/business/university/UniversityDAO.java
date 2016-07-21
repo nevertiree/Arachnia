@@ -19,23 +19,12 @@ public class UniversityDAO extends BaseDAO {
             connection=this.connectMysql();
 
             //edit the SQL query
-            String insertQuery="replace into university (id_university,name_university,province_university,type_university,property_university,is_eduMinistry_direct,attribute_university,is_985,is_211,level_university,nature_university) values(?,?,?,?,?,?,?,?,?,?,?)";
+            String insertQuery="replace into university (name,province,city) values(?,?,?)";
             PreparedStatement preparedStatement =connection.prepareStatement(insertQuery);
-
             //set the ? as the specific value with getMethod of VO
-
-            preparedStatement.setString(1,universityVO.getSchoolid());
-            preparedStatement.setString(2,universityVO.getSchoolname());
-            preparedStatement.setString(3,universityVO.getProvince());
-            preparedStatement.setString(4,universityVO.getSchooltype());
-            preparedStatement.setString(5,universityVO.getSchoolproperty());
-            preparedStatement.setInt(6,universityVO.getEdudirectly());
-            preparedStatement.setString(7,universityVO.getMembership());
-            preparedStatement.setInt(8,universityVO.getF985());
-            preparedStatement.setInt(9,universityVO.getF211());
-            preparedStatement.setString(10,universityVO.getLevel());
-            preparedStatement.setString(11,universityVO.getSchoolnature());
-
+            preparedStatement.setString(1,universityVO.getSchoolname());
+            preparedStatement.setString(2,universityVO.getProvince());
+            preparedStatement.setString(3,"未知");
             //execute the SQL query
             int affectedCount = preparedStatement.executeUpdate();
 
