@@ -93,14 +93,8 @@ public class UniversityAndMajorOperator {
             try{
                 UniversityAndMajorVO vo=new UniversityAndMajorVO();
                 vo.setSchoolid(sourceVO.getSchoolid());
-                vo.setSchoolname(sourceVO.getSchoolname());
                 vo.setSpecialtyname(sourceVO.getSpecialtyname());
                 vo.setSpecialtytype(sourceVO.getSpecialtytype());
-                vo.setEdudirectly(sourceVO.getEdudirectly());
-                vo.setF985(sourceVO.getF985());
-                vo.setF211(sourceVO.getF211());
-                vo.setSchoolprovince(sourceVO.getSchoolprovince());
-                vo.setFather_major(father_major);
                 universityAndMajorVOs.add(vo);
             }catch (Exception e){e.printStackTrace();}
         }

@@ -28,19 +28,14 @@ public class UniversityAndMajorDAO extends BaseDAO {
             connection.setAutoCommit(false);
 
             //prepare SQL query and execute it;
-            String insertQuery="replace into universityAndMajor (id_university,name_university,name_major,province_university,type_major,is_eduMinistry_direct,is_985,is_211,father_major) values(?,?,?,?,?,?,?,?,?)";
+            String insertQuery="replace into universityAndMajor (schlNo,majorNo,majorName,majorType) values(?,?,?,?)";
             PreparedStatement preparedStatement =connection.prepareStatement(insertQuery);
 
             for (UniversityAndMajorVO universityAndMajorVO:universityAndMajorVOs) {
                 preparedStatement.setString(1,universityAndMajorVO.getSchoolid());
-                preparedStatement.setString(2,universityAndMajorVO.getSchoolname());
+                preparedStatement.setString(1,universityAndMajorVO.getMajorid());
                 preparedStatement.setString(3,universityAndMajorVO.getSpecialtyname());
-                preparedStatement.setString(4,universityAndMajorVO.getSchoolprovince());
-                preparedStatement.setString(5,universityAndMajorVO.getSpecialtytype());
-                preparedStatement.setInt(6,universityAndMajorVO.getEdudirectly());
-                preparedStatement.setInt(7,universityAndMajorVO.getF985());
-                preparedStatement.setInt(8,universityAndMajorVO.getF211());
-                preparedStatement.setString(9,universityAndMajorVO.getFather_major());
+                preparedStatement.setString(4,universityAndMajorVO.getSpecialtytype());
                 preparedStatement.addBatch();
             }
 
