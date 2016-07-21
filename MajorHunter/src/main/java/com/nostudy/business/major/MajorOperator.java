@@ -27,10 +27,10 @@ public class MajorOperator {
         try {//judge whether this page has valued infomation
             while(true){
                 urlAllMajorBK ="http://data.api.gkcx.eol.cn/soudaxue/queryspecialty.html?messtype=jsonp&zycengci="+typeMajor+"&zytype=&page="+pageNumber+"&size=10&keyWord2=&schoolsort=&callback=jQuery1830032572212268669354_1468135281347&_=1468135282182";//全部本科专业目录
-                String resultAllMajorBK=GrabContent.grabWithJavaNet(urlAllMajorBK);//本科全部专业原始数据
+                String resultAllMajorBK=GrabContent.grabWithHttpClient(urlAllMajorBK);//本科全部专业原始数据
                 if (IsValueInfo.getInstance(resultAllMajorBK,"specialname")){
                     List<MajorVO> majorVOs =parseMajorRespVO(parseJSON(AnalysisContent.parseJSONFormat(resultAllMajorBK)));
-                    parseMajorVO(majorVOs);
+                    MajorDAO.insertMajor(majorVOs);
                     pageNumber++;
                 }else break;
             }
@@ -72,10 +72,4 @@ public class MajorOperator {
         return resultMajorVO;
     }
 
-    //parse and insert the MajorVO
-    public void parseMajorVO(List<MajorVO> majorVOs){
-        for (MajorVO vo : majorVOs){
-            MajorDAO.insertMajor(vo);
-        }
-    }
 }
