@@ -16,25 +16,21 @@ public class UniversityAndMajorDAO extends BaseDAO {
 
     private UniversityAndMajorDAO(){}
 
-    Connection connection =null;
-
     //insert school and major into University&Major table
-    public static void insertUniversityAndMajor(List<UniversityAndMajorVO> universityAndMajorVOs){
-
-        Connection connection=null;
+    public static void insertUniversityAndMajorList(List<UniversityAndMajorVO> universityAndMajorVOs){
 
         try {
-            connection=connectMysql();
             connection.setAutoCommit(false);
 
             //prepare SQL query and execute it;
-            String insertQuery="replace into universityAndMajor (schlNo,majorNo,majorName,majorType) values(?,?,?,?)";
+            String insertQuery="INSERT into universityAndMajor (schlNo,majorNo,majorName,majorType) values(?,?,?,?)";
             PreparedStatement preparedStatement =connection.prepareStatement(insertQuery);
 
             for (UniversityAndMajorVO universityAndMajorVO:universityAndMajorVOs) {
-                preparedStatement.setString(1,universityAndMajorVO.getSchoolid());
+                preparedStatement.setInt(1,universityAndMajorVO.getSchoolid());
                 preparedStatement.setString(2,universityAndMajorVO.getMajorid());
                 preparedStatement.setString(3,universityAndMajorVO.getSpecialtyname());
+                preparedStatement.setString(4,universityAndMajorVO.getSpecialtytype());
                 preparedStatement.addBatch();
             }
 
@@ -44,13 +40,32 @@ public class UniversityAndMajorDAO extends BaseDAO {
 
             connection.commit();
         }catch (SQLException e2){e2.printStackTrace();}
-        finally{closeMysql(connection);}
+        finally{//closeMysql(connection);
+        }
     }
 
+    public static boolean insertUniversityAndMajorSingle(UniversityAndMajorVO universityAndMajorVO){
+        boolean flag = false;
+        try {
+            //prepare SQL query and execute it;
+            String insertQuery="INSERT into universityAndMajor (schlNo,majorNo,majorName,majorType) values(?,?,?,?)";
+            PreparedStatement preparedStatement =connection.prepareStatement(insertQuery);
 
-    //insert the extra major name to major table;
-    public boolean insertMajor(MajorVO majorVO){
-        return false;
+            preparedStatement.setInt(1,universityAndMajorVO.getSchoolid());
+            preparedStatement.setString(2,universityAndMajorVO.getMajorid());
+            preparedStatement.setString(3,universityAndMajorVO.getSpecialtyname());
+            preparedStatement.setString(4,universityAndMajorVO.getSpecialtytype());
+
+            int affectedCount=preparedStatement.executeUpdate();
+            if (affectedCount > 0){
+                flag = true;
+                System.out.println("+++++插入成功UM+++++++");
+            }else System.out.println("xxxxxxx插入UM失败xxxxxxx");
+
+        }catch (SQLException e2){e2.printStackTrace();}
+        finally{//closeMysql(connection);
+        }
+        return flag;
     }
 
 }

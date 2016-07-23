@@ -14,4 +14,6 @@ public class MajorVO {
     private String zycengci;
     private String zytype;
     private int rankingType;
+
+    public MajorVO(){}
 }

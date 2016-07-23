@@ -8,8 +8,10 @@ import java.sql.SQLException;
  * Created by Lance on 7/14/16.
  */
 public class BaseDAO {
-
-    protected BaseDAO(){}
+    protected static Connection connection;
+    static {
+        connection = connectMysql();
+    }
 
     public static Connection connectMysql(){
         try {

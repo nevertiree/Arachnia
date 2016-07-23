@@ -7,6 +7,7 @@ import com.nostudy.business.common.IsValueInfo;
 import com.nostudy.business.major.MajorDAO;
 import com.nostudy.business.major.MajorOperator;
 import com.nostudy.business.major.MajorVO;
+import com.nostudy.business.university.UniversityDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,49 +47,94 @@ public class UniversityAndMajorOperator {
                 queryUrl = queryUrl.replaceAll("majorNameParamValue", majorVO.getSpecialname());
 
                 try {
-                    result =GrabContent.grabWithHttpClient(queryUrl);
+                    //得到本页结果
+                    result =GrabContent.grabWithJavaNet(queryUrl);
                     //判断该页返回是否空值
                     if (IsValueInfo.getInstance(result, "school")){
-                        //First move header and tail
+
+                        //原数据解析步骤
                         result=AnalysisContent.parseJSONFormat(result);
-                        //得到多个返回的中间表VO对象
                         UniversityAndMajorRespVO resonse = parseJSON(result);
                         List<UniversityAndMajorRowVO> rows = resonse.getSchool();
 
-                        //convert every row into UniversityAndMajorVO
+                        int schlNo=-1;
+                        int counter=1;
+                        String identifier;
+                        String finalMajorId;//最后插入中间表的majorid
+                        String originMajorId;//需要进过算法加工的majorid；
+                        // TODO: UniversityAndMajorRowVO 的可用数据——》
+                        // TODO: 1.schlName(用于查询自增的schlid)
+                        // TODO: 2.majorName(各式各样的专业)
+                        // TODO: 3.majorType（重要的专业区分方式）
+                        String currentMajorType = null;
                         for (UniversityAndMajorRowVO row:rows) {
-                            UniversityAndMajorVO vo = new UniversityAndMajorVO();
-                            //1. 根据学校名字，获取数据库中学校对应的no
-                            int schoolNo = 0;//// TODO: 7/21/16
+                            //type字段可能为null，默认按照教育部的类型进行数据处理
+                            currentMajorType = row.getSpecialtytype();
+                            if (currentMajorType == null || currentMajorType.length() == 0 || currentMajorType.endsWith("nothing")) {
+                                row.setSpecialtytype( majorVO.getZytype() );
+                            }
 
-                            //2.查询该专业名字以及type&level对应的专业是否存在
-                            //  2.1 存在，获取major的no
-                            //majorDao.getMajorNoByNameTypeLevel
-                            //  2.2 不存在:
-                            //      2.2.1 查询该专业代码
-                            //          (1)根据majorVO.getSpecialname(),获取教育部目录中的专业代码specNO
-                            //          (2)根据规则计算，specNO打头的专业已经存在的专业数量
-                            //      2.2.2 计算新加专业的代码：10位代码
-                            //      2.2.3 insert into major table
 
+                            //1. 根据学校名字schlName，获取university表中对应的schlNo
+                            schlNo= UniversityDAO.querySchlNoByName(row.getSchoolname());
+                            //如果学校id为0则说明没有该学校 插入之
+                            if (schlNo==-1){
+                                // TODO: 7/21/16 insert a university record.？？？
+                                System.out.println("------------------没有学校"+row.getSchoolname()+"的"+row.getSpecialtyname());
+
+                                continue;
+                            }
+
+                            //2.查询该专业名字以及type&level对应的专业是否存在,返回一个结果id
+                            finalMajorId=MajorDAO.queryMajorIdByDetail(row.getSpecialtyname(),row.getSpecialtytype());
+                            //(1)根据majorVO.getSpecialname(),获取教育部目录中的专业代码specNO
+                            originMajorId = MajorDAO.queryMajorIdByDetail(majorVO.getSpecialname(),majorVO.getZytype());
+
+                            //  2.2 不存在该专业时,majorid为null
+                            if(finalMajorId!=null) {//如果该专业存在
+                                // 查询该专业代码
+                                finalMajorId=originMajorId;
+                                // (2)根据规则计算，specNO打头的专业已经存在的专业数量
+                            }else {//如果该专业不存在
+                                //2.2.2 计算新加专业的代码：10位代码
+                                counter = MajorDAO.getTotalNumOfSameMajorId( originMajorId );
+
+                                //转化为四位字符串，不足四位前面补0，即1--》0001
+                                identifier = identifierTrans(counter);
+                                //前面拼接原专业的ID
+                                finalMajorId = originMajorId.concat(identifier);
+
+                                //如果返回空值说明需要在major表中插入row
+                                //2.2.3 insert into major table
+                                MajorVO mvo = new MajorVO();
+                                // TODO: major表的需要的内容
+                                // TODO:  no(根据算法新设)
+                                // TODO:  name(插入各式各样的专业名字)
+                                // TODO:  level(以大学的专业为准)
+                                // TODO:  type(majorType中以有)
+                                // TODO:  rank(设计为4)
+                                mvo.setCode(finalMajorId);
+                                mvo.setSpecialname(row.getSpecialtyname());
+                                mvo.setZycengci(majorVO.getZycengci());
+                                mvo.setZytype(row.getSpecialtytype());
+                                mvo.setRankingType(4);
+                                MajorDAO.insertMajorSingle(mvo);
+
+                            }
                             //3.根据第2步的操作，确定专业的代码
-                            //4. new VO--schoolNo, majorNo,
+                            // TODO: 插入到universityAndMajor表
+                            // TODO: 1.schlNo(需要从university表中取得 不可使用爬虫数据)
+                            // todo: 2.majorNo(上文生成的新id)
+                            // todo: 3.majorName()
+                            // todo: 4.majorType()
+                            UniversityAndMajorVO umvo=new UniversityAndMajorVO();
+                            umvo.setSchoolid(schlNo);
+                            umvo.setMajorid(finalMajorId);
+                            umvo.setSpecialtyname(row.getSpecialtyname());
+                            umvo.setSpecialtytype(row.getSpecialtytype());
+                            UniversityAndMajorDAO.insertUniversityAndMajorSingle(umvo);
 
-
-                            //vo.getSpecialtyname()
                         }
-
-
-
-
-                        List<UniversityAndMajorVO> umvo =praseUniversityAndMajorRespVO((parseJSON(result)),majorVO);
-                        //把专业所在的学校插入数据库
-                        UniversityAndMajorDAO.insertUniversityAndMajor(umvo);
-
-                        //得到多个major表VO对象（用于添加各式各样的专业别名）
-
-                        //把专业别名插入数据库
-
                         pageNumber++;
 
                         seconds = random.nextInt(2)*100;
@@ -140,20 +186,18 @@ public class UniversityAndMajorOperator {
         for (UniversityAndMajorRowVO sourceVO :universityAndMajorRespVO.getSchool()){
 
             try{
-                UniversityAndMajorVO vo=new UniversityAndMajorVO();
+               /* UniversityAndMajorVO vo=new UniversityAndMajorVO();
                 vo.setSchoolid(sourceVO.getSchoolid());
                 vo.setMajorid(identifierTrans(counter));
                 vo.setSpecialtyname(sourceVO.getSpecialtyname());
                 vo.setSpecialtytype(sourceVO.getSpecialtytype());
-                universityAndMajorVOs.add(vo);
+                universityAndMajorVOs.add(vo);*/
             }catch (Exception e){e.printStackTrace();}
 
         }
 
         return universityAndMajorVOs;
     }
-
-
 
     //analysis the different name major
    public static String identifierTrans(int counter){
