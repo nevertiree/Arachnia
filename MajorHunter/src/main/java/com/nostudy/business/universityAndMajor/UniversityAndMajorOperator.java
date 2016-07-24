@@ -115,7 +115,6 @@ public class UniversityAndMajorOperator {
                                 // TODO:  rank(设计为4)
                                 mvo.setCode(finalMajorId);
                                 mvo.setSpecialname(row.getSpecialtyname());
-                                mvo.setZycengci(majorVO.getZycengci());
                                 mvo.setZytype(row.getSpecialtytype());
                                 mvo.setRankingType(4);
                                 MajorDAO.insertMajorSingle(mvo);

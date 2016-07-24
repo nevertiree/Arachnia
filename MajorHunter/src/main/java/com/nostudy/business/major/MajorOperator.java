@@ -55,7 +55,6 @@ public class MajorOperator {
             try {MajorVO majorVO = new MajorVO();
                 majorVO.setCode(majorRowVO.getCode());
                 majorVO.setSpecialname(majorRowVO.getSpecialname());
-                majorVO.setZycengci(majorRowVO.getZycengci());
                 majorVO.setZytype(majorRowVO.getZytype());
                 majorVO.setRankingType(majorRowVO.getRankingType());
                 resultMajorVO.add(majorVO);

@@ -11,7 +11,6 @@ import lombok.Data;
 public class MajorVO {
     private String code;
     private String specialname;
-    private String zycengci;
     private String zytype;
     private int rankingType;
 

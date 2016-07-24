@@ -21,16 +21,15 @@ public class MajorDAO extends BaseDAO {
             connection=connectMysql();
             //edit the SQL query
             connection.setAutoCommit(false);
-            String insertQuery= "replace into major (no,name,level,type,rank) values(?,?,?,?,?)";
+            String insertQuery= "replace into major (no,name,type,rank) values(?,?,?,?)";
             PreparedStatement preparedStatement=connection.prepareStatement(insertQuery);
 
             for (MajorVO vo:majorVOs){
                 //set the ? as the specific value with getMethod of VO
                 preparedStatement.setString(1,vo.getCode());
                 preparedStatement.setString(2,vo.getSpecialname());
-                preparedStatement.setString(3,vo.getZycengci());
-                preparedStatement.setString(4,vo.getZytype());
-                preparedStatement.setInt(5,3);
+                preparedStatement.setString(3,vo.getZytype());
+                preparedStatement.setInt(4,3);
                 preparedStatement.addBatch();
             }
 
@@ -44,7 +43,7 @@ public class MajorDAO extends BaseDAO {
     }
 
     public static boolean insertMajorSingle(MajorVO vo){
-        String insertQuery= "replace into major (no,name,level,type,rank) values(?,?,?,?,?)";
+        String insertQuery= "replace into major (no,name,type,rank) values(?,?,?,?)";
 
         boolean flag= false;
 
@@ -53,9 +52,8 @@ public class MajorDAO extends BaseDAO {
             //set the ? as the specific value with getMethod of VO
             preparedStatement.setString(1,vo.getCode());
             preparedStatement.setString(2,vo.getSpecialname());
-            preparedStatement.setString(3,vo.getZycengci());
-            preparedStatement.setString(4,vo.getZytype());
-            preparedStatement.setInt(5,vo.getRankingType());
+            preparedStatement.setString(3,vo.getZytype());
+            preparedStatement.setInt(4,vo.getRankingType());
 
             int affectedCount=preparedStatement.executeUpdate();
 
@@ -85,7 +83,6 @@ public class MajorDAO extends BaseDAO {
                 MajorVO majorVO=new MajorVO();
                 majorVO.setCode(resultSet.getString("no"));
                 majorVO.setSpecialname(resultSet.getString("name"));
-                majorVO.setZycengci(resultSet.getString("level"));
                 majorVO.setZytype(resultSet.getString("type"));
                 majorVO.setRankingType(resultSet.getInt("rank"));
                 majorVOs.add(majorVO);

@@ -34,7 +34,6 @@ CREATE TABLE IF NOT EXISTS universityIndex (
 CREATE TABLE IF NOT EXISTS major (
   no      VARCHAR(10)    PRIMARY KEY , #教育部的序号以code为准
   name    VARCHAR(64)    NOT NULL ,
-  level   VARCHAR(8)     NOT NULL ,    #本科 专科
   type    VARCHAR(16)    NOT NULL ,    #理工、、
   rank    INT(4)         NOT NULL ,    #一级学科、、二级、、三
   UNIQUE unique_MajorName_MajorType (name, type)
