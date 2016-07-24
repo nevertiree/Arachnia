@@ -25,13 +25,13 @@ create table if not exists university(
 
 CREATE TABLE IF NOT EXISTS universityType(
   no         MEDIUMINT      PRIMARY KEY ,
-  type       VARCHAR(8)     NOT NULL,#普通本科 高职高专 独立学院 中外合作……
-  level      VARCHAR(8)     NOT NULL,#本科 专科
-  property   VARCHAR(16)    NOT NULL,#理工类 综合类 医科类……
-  authority  VARCHAR(32)    NOT NULL,#所属单位:北京市 工信部
+  type       VARCHAR(8)     NOT NULL,     #普通本科 高职高专 独立学院 中外合作……
+  level      VARCHAR(8)     NOT NULL,     #本科 专科
+  property   VARCHAR(16)    NOT NULL,     #理工类 综合类 医科类……
+  authority  VARCHAR(32)    NOT NULL,     #所属单位:北京市 工信部
   is985      BOOLEAN        NOT NULL,
   is211      BOOLEAN        NOT NULL,
-  nature     VARCHAR(8)     NOT NULL,#国立 民办
+  nature     VARCHAR(8)     NOT NULL,     #国立 民办
   FOREIGN KEY (no) REFERENCES university(no) ON DELETE CASCADE ON UPDATE CASCADE
 )CHARACTER SET =utf8;
 
@@ -46,19 +46,18 @@ CREATE TABLE IF NOT EXISTS universityIndex (
 
 #学校详细信息表
 CREATE TABLE IF NOT EXISTS universityDetail(
-  no       int          PRIMARY KEY ,
+  no       MEDIUMINT    PRIMARY KEY ,
   name     VARCHAR(64)  NOT NULL  UNIQUE ,
-  tel      VARCHAR(64)  NOT NULL, #招生办公室电话
-  address  VARCHAR(128) NOT NULL,  #学校地址
-  email    VARCHAR(64)  NOT NULL, #email
-  website  VARCHAR(64)  NOT NULL, #官方网站
-  FOREIGN KEY (no) REFERENCES university(no) ON DELETE CASCADE ON UPDATE CASCADE ,
-  FOREIGN KEY (name) REFERENCES university(name) ON DELETE CASCADE ON UPDATE CASCADE
+  tel      VARCHAR(64)  NOT NULL,         #招生办公室电话
+  address  VARCHAR(128) NOT NULL,         #学校地址
+  email    VARCHAR(64)  NOT NULL,         #email
+  website  VARCHAR(64)  NOT NULL,         #官方网站
+  FOREIGN KEY (no) REFERENCES university(no) ON DELETE CASCADE ON UPDATE CASCADE
 )CHARACTER SET =utf8;
 
 #专业信息，记录通过ImportSchoolInfoIntoDB导入
 create table if not exists major (
-	id_major       VARCHAR(8)     PRIMARY KEY ,#以code为准
+	id_major       VARCHAR(8)     PRIMARY KEY ,   #以code为准
 	name_major     VARCHAR(64)    NOT NULL ,
 	level_major    VARCHAR(8)     NOT NULL ,
   type_major     VARCHAR(16)    NOT NULL ,
@@ -77,18 +76,12 @@ create table if not exists majorIndex (
 
 
 CREATE TABLE IF NOT EXISTS universityAndMajor(
-  id_university            VARCHAR(16)    NOT NULL ,
-  name_university          VARCHAR(64)    NOT NULL ,
-  name_major               VARCHAR(64)    NOT NULL ,
-  province_university      VARCHAR(32)    NOT NULL ,
-  type_major               VARCHAR(16)    NOT NULL ,
-  is_eduMinistry_direct    INT            NOT NULL ,
-  is_985                   INT            NOT NULL ,
-  is_211                   INT            NOT NULL ,
-  father_major             VARCHAR(32)    NOT NULL ,
-  PRIMARY KEY (name_major,name_university)
-)CHARACTER SET =utf8,
-MAX_ROWS = 1000000;
+  schlNo      MEDIUMINT    NOT NULL ,
+  majorNo     VARCHAR(10)  NOT NULL ,
+  majorName   VARCHAR(64)  NOT NULL ,
+  majorType   VARCHAR(16)  NOT NULL ,#理工 医科
+  PRIMARY KEY (majorName,schlNo)
+)CHARACTER SET =utf8;
 
 #学期｜校历信息,
 ########univNO 可能需要修改，改为学校名字
