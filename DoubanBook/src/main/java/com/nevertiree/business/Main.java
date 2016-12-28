@@ -6,10 +6,10 @@ package com.nevertiree.business;
 public class Main {
 
     public static void main(String[] args){
-        String url = "https://book.douban.com/subject/1148282/";
+        String url = "https://book.douban.com/subject/4848587/";
         String result = GetWebContent.getWebConentx(url);
-        System.out.print(BookFilter.getBookInfo(result));
-  //      System.out.print(result);
+//        System.out.print(BookFilter.getBookInfo(result));
+        System.out.print(result);
 
     }
 }
