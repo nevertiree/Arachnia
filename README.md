@@ -7,3 +7,7 @@
 ###1.[MajorHunter](./MajorHunter)
 
 这是用来抓取各个大学所有专业的程序
+
+###2.[DoubanBook](./DoubanBook)
+
+抓取豆瓣图书下全部图书的书名、阅读人数以及评分。
