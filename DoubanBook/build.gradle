@@ -1,23 +1,8 @@
 group 'nevertiree'
 version '1.0-SNAPSHOT'
 
-buildscript{
-    repositories {
-        mavenCentral()
-    }
-    dependencies{
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
-    }
-}
-
 apply plugin: 'java'
 apply plugin: 'idea'
-apply pulgin: 'org.springframework.boot'
-
-jar {
-    baseName = 'gs-relational-data-access'
-    version =  '0.1.0'
-}
 
 sourceCompatibility = 1.8
 
