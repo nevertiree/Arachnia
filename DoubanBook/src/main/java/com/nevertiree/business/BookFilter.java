@@ -5,20 +5,26 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Created by Lance Wang on 2016/12/29.
+ */
 public class BookFilter {
 
     public static BookVO getBookInfo(String webContent){
 
         BookVO book = new BookVO();
-
-        book.setName(getBookName(webContent));
-        book.setScore(Double.parseDouble(getBookScore(webContent)));
-        book.setReaderNum(Integer.parseInt(getVoteNumber(webContent)));
-        book.setScoreRank1(Double.parseDouble(getRank1Rate(webContent)));
-        book.setScoreRank2(Double.parseDouble(getRank2Rate(webContent)));
-        book.setScoreRank3(Double.parseDouble(getRank3Rate(webContent)));
-        book.setScoreRank4(Double.parseDouble(getRank4Rate(webContent)));
-        book.setScoreRank5(Double.parseDouble(getRank5Rate(webContent)));
+        try {
+            book.setName(getBookName(webContent));
+            book.setScore(Double.parseDouble(getBookScore(webContent)));
+            book.setReaderNum(Integer.parseInt(getVoteNumber(webContent)));
+            book.setScoreRank1(Double.parseDouble(getRank1Rate(webContent)));
+            book.setScoreRank2(Double.parseDouble(getRank2Rate(webContent)));
+            book.setScoreRank3(Double.parseDouble(getRank3Rate(webContent)));
+            book.setScoreRank4(Double.parseDouble(getRank4Rate(webContent)));
+            book.setScoreRank5(Double.parseDouble(getRank5Rate(webContent)));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return book;
     }
 
@@ -140,7 +146,7 @@ public class BookFilter {
 
         while (relativeMatcher.find()){
                 String webLink = relativeMatcher.group();
-                System.out.println(webLink);
+                //System.out.println(webLink);
                 relativeWebSet.add(webLink);
         }
 
