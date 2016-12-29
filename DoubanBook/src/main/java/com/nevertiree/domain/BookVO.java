@@ -1,4 +1,4 @@
-package com.nevertiree.business;
+package com.nevertiree.domain;
 
 /**
  * Created by Lance Wang on 2016/12/27.
