@@ -1,5 +1,7 @@
 package com.nevertiree.business;
 
+import com.nevertiree.domain.BookVO;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -10,13 +12,16 @@ import java.util.regex.Pattern;
  */
 public class BookFilter {
 
+    // TODO: 2016/12/29 一些书籍评价人数不足，不会显示评分和阅读人数，所以直接略过。 
+    
     public static BookVO getBookInfo(String webContent){
 
         BookVO book = new BookVO();
         try {
             book.setName(getBookName(webContent));
+            book.setIsbn(getBookISBN(webContent));
             book.setScore(Double.parseDouble(getBookScore(webContent)));
-            book.setReaderNum(Integer.parseInt(getVoteNumber(webContent)));
+            book.setVoteNum(Integer.parseInt(getVoteNumber(webContent)));
             book.setScoreRank1(Double.parseDouble(getRank1Rate(webContent)));
             book.setScoreRank2(Double.parseDouble(getRank2Rate(webContent)));
             book.setScoreRank3(Double.parseDouble(getRank3Rate(webContent)));
@@ -26,6 +31,19 @@ public class BookFilter {
             e.printStackTrace();
         }
         return book;
+    }
+
+    public static String getBookISBN(String webContent){
+        Pattern isbnPattern = Pattern.compile("<span class=\"pl\">ISBN:</span>[\\s]*.*?[\\s]*<br/>");
+        Matcher isbnMatcher = isbnPattern.matcher(webContent);
+
+        if (isbnMatcher .find()) {
+            String isbn = isbnMatcher.group().replaceAll("\\s","").replace("<spanclass=\"pl\">ISBN:</span>","").replace("<br/>","");
+            System.out.println(isbn);
+            return isbn;
+        }
+        System.out.println("Do not find yet !");
+        return null;
     }
 
     public static String getBookName(String webContent){
@@ -47,12 +65,12 @@ public class BookFilter {
         Matcher scoreMatcher = scorePattern.matcher(webContent);
 
         if (scoreMatcher .find()) {
-            String score = scoreMatcher.group().replace("<strong class=\"ll rating_num \" property=\"v:average\">","").replace("</strong>","").replaceAll("\\s","");
+            String score = scoreMatcher.group().replaceAll("\\s","").replaceAll("<strongclass=\"llrating_num\"property=\"v:average\">","").replace("</strong>","");
             System.out.println(score);
             return score;
         }
         System.out.println("Do not find yet !");
-        return null;
+        return "11.0";
     }
 
     public static String getVoteNumber(String webContent){
@@ -79,7 +97,7 @@ public class BookFilter {
             return rank5rate;
         }
         System.out.println("Do not find yet !");
-        return null;
+        return "0";
     }
 
     public static String getRank4Rate(String webContent){
@@ -92,7 +110,7 @@ public class BookFilter {
             return rank4rate;
         }
         System.out.println("Don not find yet !");
-        return null;
+        return "11.0";
     }
 
     public static String getRank3Rate(String webContent){
@@ -106,7 +124,7 @@ public class BookFilter {
             return rank3rate;
         }
         System.out.println("Do not find yet !");
-        return null;
+        return "11.0";
     }
 
     public static String getRank2Rate(String webContent){
@@ -120,7 +138,7 @@ public class BookFilter {
             return rank2rate;
         }
         System.out.println("Do not find yet !");
-        return null;
+        return "11.0";
     }
 
     public static String getRank1Rate(String webContent){
@@ -134,7 +152,7 @@ public class BookFilter {
             return rank1rate;
         }
         System.out.println("Do not find yet !");
-        return null;
+        return "11.0";
     }
 
     public static Set<String> getRelativeBook(String webContent){

@@ -5,11 +5,13 @@ package com.nevertiree.business;
  */
 public class Main {
 
-    public static void main(String[] args){
-        String url = "https://book.douban.com/subject/4848587/";
-        String result = GetWebContent.getWebConentx(url);
+    public static void main(String[] args) throws Exception{
+        String url = "https://book.douban.com/subject/20432061/";
+        BreadthFirstSearch bfs = new BreadthFirstSearch();
+        bfs.start(url);
+//        String result = GetWebContent.getWebContent(url);
 //        System.out.print(BookFilter.getBookInfo(result));
-        System.out.print(result);
+//        System.out.print(result);
 
     }
 }
