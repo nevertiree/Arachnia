@@ -18,7 +18,7 @@ public class GetWebContent {
 
     private final static int CONNECTION_TIME_OUT = 10;
 
-    public static String getWebConentx(String url) throws ParserException,IOException{
+    public static String getWebContent(String url) throws ParserException,IOException{
         StringBuilder resultBuilder = new StringBuilder();
         BufferedReader inputBuffer = null;
 
