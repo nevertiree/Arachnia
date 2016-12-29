@@ -1,5 +1,6 @@
 package com.nevertiree.business;
 
+import com.nevertiree.domain.BookVO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,15 +13,16 @@ public class BookFilterTest {
 
     private BookFilter bookFilter;
 
-    private String url = "https://book.douban.com/subject/3291901/";
-    private String exceptedName = "Linux Kernel Development";
-    private String exceptedScore = "9.0";
-    private String exceptedVote = "130";
-    private String exceptedRank5 = "58.5";
-    private String exceptedRank4 = "35.4";
-    private String exceptedRank3 = "6.2";
-    private String exceptedRank2 = "0.0";
-    private String exceptedRank1 = "0.0";
+    private static String url = "https://book.douban.com/subject/20432061/";
+    private static String exceptedISBN = "9787111407010";
+    private static String exceptedName = "算法导论（原书第3版）";
+    private static String exceptedScore = "9.2";
+    private static String exceptedVote = "334";
+    private static String exceptedRank5 = "71.6";
+    private static String exceptedRank4 = "22.8";
+    private static String exceptedRank3 = "3.9";
+    private static String exceptedRank2 = "0.9";
+    private static String exceptedRank1 = "0.9";
 
     private BookVO book = new BookVO();
 
@@ -34,7 +36,7 @@ public class BookFilterTest {
 //        String testWebContent = GetWebContent.getWebContent(url);
 //        book.setName(exceptedName);
 //        book.setScore(Double.parseDouble(exceptedScore));
-//        book.setReaderNum(Integer.parseInt(exceptedVote));
+//        book.setVoteNum(Integer.parseInt(exceptedVote));
 //        book.setScoreRank1(Double.parseDouble(exceptedRank1));
 //        book.setScoreRank2(Double.parseDouble(exceptedRank2));
 //        book.setScoreRank3(Double.parseDouble(exceptedRank3));
@@ -43,6 +45,12 @@ public class BookFilterTest {
 //
 //        assertEquals(book,BookFilter.getBookInfo(url));
 //    }
+
+    @Test
+    public void testGetBookISBN() throws Exception{
+        String testWebContent = GetWebContent.getWebContent(url);
+        assertEquals(exceptedISBN,BookFilter.getBookISBN(testWebContent));
+    }
 
     @Test
     public void testGetBookName() throws Exception{

@@ -8,7 +8,7 @@ public class BookVO {
     private String id;
     private String isbn;
     private String name;
-    private int readerNum;
+    private int voteNum;
     private double score;
     private double scoreRank5;
     private double scoreRank4;
@@ -21,7 +21,7 @@ public class BookVO {
         result += "\nname:";
         result += this.getName();
         result += "\nreaderNumber:";
-        result += this.getReaderNum();
+        result += this.getVoteNum();
         result += "\nscore:";
         result += this.getScore();
         result += "\nscoreRank5:";
@@ -109,12 +109,12 @@ public class BookVO {
         this.scoreRank1 = scoreRank1;
     }
 
-    public int getReaderNum() {
-        return readerNum;
+    public int getVoteNum() {
+        return voteNum;
     }
 
-    public void setReaderNum(int readerNum) {
-        this.readerNum = readerNum;
+    public void setVoteNum(int voteNum) {
+        this.voteNum = voteNum;
 }
 
 
