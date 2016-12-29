@@ -69,7 +69,7 @@ public class BookFilterTest {
     @Test
     public void testGetRelativeBook(){
         String testWebContent = GetWebContent.getWebConentx(url_think_in_java);
-        assertEquals("hello",BookFilter.getRelativeBook(testWebContent));
+        assertEquals(15,BookFilter.getRelativeBook(testWebContent).size());
     }
 
 }

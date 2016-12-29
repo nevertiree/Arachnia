@@ -1,6 +1,7 @@
 package com.nevertiree.business;
 
-import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -130,20 +131,19 @@ public class BookFilter {
         return null;
     }
 
-    public static String getRelativeBook(String webContent){
+    public static Set<String> getRelativeBook(String webContent){
 
-        Pattern relativePattern = Pattern.compile("(https://book.douban.com/subject/[\\d]*/)");
+        Pattern relativePattern = Pattern.compile("(https://book.douban.com/subject/[\\d]+/)");
         Matcher relativeMatcher = relativePattern.matcher(webContent);
 
-        if (relativeMatcher.find()){
-            System.out.println(relativeMatcher.groupCount());
-            for (int i = 0;i<relativeMatcher.groupCount();i++){
-                System.out.println(relativeMatcher.group(i));
-            }
-        }else{
-            System.out.println("Do not find yet !");
+        Set<String> relativeWebSet = new HashSet<>();
+
+        while (relativeMatcher.find()){
+                String webLink = relativeMatcher.group();
+                System.out.println(webLink);
+                relativeWebSet.add(webLink);
         }
 
-        return "hello";
+        return relativeWebSet;
     }
 }
