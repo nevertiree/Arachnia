@@ -1,0 +1,1 @@
+http://data.api.gkcx.eol.cn/soudaxue/queryschool.html?messtype=jsonp&province=&schooltype=&page=10&size=50&keyWord1=&schoolprop=&schoolflag=&schoolsort=&schoolid=&callback=jQuery1830041806086262917264_1468555273424&_=1468555274537.
